@@ -1,0 +1,18 @@
+{% load learning_journey_extras %}
+{% with state=key|stage_state:active %}
+<li class="lj-step{% if state == 'active' %} lj-step--active{% endif %}{% if state == 'completed' %} lj-step--completed{% endif %}">
+    <span class="lj-node" aria-hidden="true">
+        <span class="lj-node-dot"></span>
+    </span>
+    <div class="lj-card">
+        <span class="lj-step-label">{{ label }}</span>
+        <h3 class="lj-stage-name">{{ name }}</h3>
+        <p class="lj-stage-desc">{{ desc }}</p>
+        {% if state == 'active' %}
+        <span class="lj-here-badge">&#10004; YOU ARE HERE</span>
+        {% elif state == 'completed' %}
+        <span class="lj-completed-badge">&#10004; COMPLETED</span>
+        {% endif %}
+    </div>
+</li>
+{% endwith %}

@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if page.seo_title %}{{ page.seo_title }}{% elif seo_title %}{{ seo_title }}{% else %}SMART-50 | Ekalavya Universys{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+{% if page.seo_description %}
+<meta name="description" content="{{ page.seo_description }}">
+{% elif seo_description %}
+<meta name="description" content="{{ seo_description }}">
+{% endif %}
+{% if page.seo_keywords %}
+<meta name="keywords" content="{{ page.seo_keywords }}">
+{% elif seo_keywords %}
+<meta name="keywords" content="{{ seo_keywords }}">
+{% endif %}
+{% endblock %}
+
+{% block body_attrs %} class="smart-idea-page-body"{% endblock %}
+
+{% block top_banner_attrs %} style="position:relative;"{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/smart_idea_page.css' %}">
+
+{% if page and page.background_image %}
+<style>
+    .smart-idea-bg {
+        background-image: url('{{ page.background_image.url }}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+</style>
+{% endif %}
+
+<style>
+    .smart-idea-page-body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if page %}
+
+<div class="smart-idea-bg"></div>
+
+<!-- MAIN SMART IDEA SCROLL EXPERIENCE -->
+<div class="smart-idea-scroll-wrapper">
+
+    <!-- ===== OPENED SCROLL ===== -->
+    <div class="smart-idea-opened-scroll">
+        <div class="smart-idea-scroll-glow"></div>
+        <div class="smart-idea-scroll-outer">
+            <div class="smart-idea-scroll-rod-top"></div>
+            <div class="smart-idea-scroll-rod-cap-outer left"></div>
+            <div class="smart-idea-scroll-rod-cap-outer right"></div>
+
+            <div class="smart-idea-scroll-content">
+
+                <!-- SECTION 1 - TREE IMAGE -->
+                {% if page.tree_image %}
+                <img src="{{ page.tree_image.url }}" alt="The Ekalavya Learning Tree Architecture" class="smart-idea-section-image">
+                {% else %}
+                <div class="smart-idea-image-placeholder" aria-label="Tree Architecture placeholder">
+                    <span class="smart-idea-placeholder-icon">🌳</span>
+                    <p class="smart-idea-placeholder-text">Tree Architecture</p>
+                    <span class="smart-idea-placeholder-hint">Upload an image from the admin to display the learning tree here.</span>
+                </div>
+                {% endif %}
+
+                <!-- SECTION 2 - SMART-50 POSTER -->
+                {% if page.poster_image %}
+                <img src="{{ page.poster_image.url }}" alt="SMART-50 Poster" class="smart-idea-section-image">
+                {% else %}
+                <div class="smart-idea-image-placeholder" aria-label="SMART-50 Poster placeholder">
+                    <span class="smart-idea-placeholder-icon">🖼️</span>
+                    <p class="smart-idea-placeholder-text">SMART-50 Poster</p>
+                    <span class="smart-idea-placeholder-hint">Upload a poster image from the admin to display it here.</span>
+                </div>
+                {% endif %}
+
+                <!-- SECTION 3 - JOURNEY CARD -->
+                <div class="smart-idea-journey-section smart-idea-reveal">
+                    <h2 class="smart-idea-journey-title">{{ page.journey_title|default:"Continue Your Journey" }}</h2>
+                    <a href="{% if page.journey_button_url %}{{ page.journey_button_url }}{% else %}{% url 'free_training' %}{% endif %}" class="smart-idea-journey-btn">
+                        <span class="smart-idea-journey-btn-icon">🔗</span>
+                        <span class="smart-idea-journey-btn-text">{{ page.journey_button_text|default:"Explore SMART-50 – Build the Right Mindset for IT Success" }}</span>
+                        <span class="smart-idea-journey-btn-arrow">→</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="smart-idea-scroll-rod-bottom"></div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+
+<!-- ===== NO CONTENT ===== -->
+<div class="smart-idea-no-content">
+    <h2>SMART-50</h2>
+    <p>Content is being prepared. Please check back soon.</p>
+</div>
+
+{% endif %}
+
+<!-- Floating Particles -->
+<div class="smart-idea-particles"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/smart_idea_page.js' %}"></script>
+{% endblock %}

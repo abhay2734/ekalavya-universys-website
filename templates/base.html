@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Ekalavya Universys{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Rokkitt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+     <!-- Custom CSS -->
+     <link rel="stylesheet" href="{% static 'css/style.css' %}?v=28">
+
+    {% block extra_head %}{% endblock %}
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+<body{% block body_attrs %}{% endblock %}>
+
+<!-- TOP BANNER (Fixed) -->
+<div class="top-banner"{% block top_banner_attrs %}{% endblock %}>
+<img src="{% static 'images/Top Banner.png' %}" class="banner-image" alt="Ekalavya Universys">
+</div>
+
+<!-- NAVBAR -->
+
+<nav class="main-navbar navbar navbar-expand-lg">
+    <div class="container navbar-inner">
+
+        <div class="logo">
+            <a href="{% url 'landing_page' %}" class="logo-link">
+                <div class="logo-box">
+                    <img src="{% static 'images/logo.png' %}" class="logo-image" alt="Ekalavya">
+                </div>
+
+            </a>
+        </div>
+
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+             <span class="navbar-toggler-icon"></span>
+         </button>
+
+         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+             <div class="text-center">
+                 <div class="nav-menu">
+                      {% for item in navigation_items %}
+                      {% if item.label != 'FAQs' %}
+                      <a class="nav-link" href="{% if item.url_name == 'home' %}{% url 'home' %}{% else %}{% url item.url_name %}{% endif %}">
+                          <span class="nav-link-label">{{ item.label }}</span>
+                          <span class="nav-link-support">{{ item.supporting_text }}</span>
+                      </a>
+                      {% endif %}
+                      {% endfor %}
+                 </div>
+             </div>
+         </div>
+    </div>
+
+    <div class="nav-border"></div>
+
+</nav>
+
+
+{% block content %}
+{% endblock %}
+
+{% include "partials/footer.html" %}
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+{% block extra_js %}{% endblock %}
+
+<!-- VIDEO MODAL -->
+<div id="videoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="videoContainer">
+            <!-- Video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeVideo">×</div>
+    </div>
+</div>
+
+<!-- AI VIDEO MODAL -->
+<div id="aiVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="aiVideoContainer">
+            <!-- AI video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeAiVideo">×</div>
+    </div>
+</div>
+
+<!-- THE SYSTEM VIDEO MODAL -->
+<div id="theSystemVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="theSystemVideoContainer">
+            <!-- The System video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeTheSystemVideo">×</div>
+    </div>
+</div>
+
+<!-- CONCEPTUAL COMMUNICATION VIDEO MODAL -->
+<div id="conceptualCommunicationVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="conceptualCommunicationVideoContainer">
+            <!-- Conceptual communication video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeConceptualCommunicationVideo">×</div>
+    </div>
+</div>
+
+<!-- THIRTY MINUTES VIDEO MODAL -->
+<div id="thirtyMinutesVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="thirtyMinutesVideoContainer">
+            <!-- 30 Minutes video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeThirtyMinutesVideo">×</div>
+    </div>
+</div>
+
+<!-- IT ASPIRANT VIDEO MODAL -->
+<div id="itAspirantVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="itAspirantVideoContainer">
+            <!-- IT Aspirant video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeItAspirantVideo">×</div>
+    </div>
+</div>
+
+<!-- MASTER AI FULL BACKEND AND FRONTEND VIDEO MODAL -->
+<div id="masterAiVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="masterAiVideoContainer">
+            <!-- Master AI Full Backend and Frontend video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeMasterAiVideo">×</div>
+    </div>
+</div>
+
+<!-- ZERO TO INDUSTRY VIDEO MODAL -->
+<div id="zeroToIndustryVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="zeroToIndustryVideoContainer">
+            <!-- Zero to Industry video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeZeroToIndustryVideo">×</div>
+    </div>
+</div>
+
+<!-- CAREER PATHS VIDEO MODAL -->
+<div id="careerPathsVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="careerPathsVideoContainer">
+            <!-- Career Paths video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeCareerPathsVideo">×</div>
+    </div>
+</div>
+
+<!-- READY FOR TEST VIDEO MODAL -->
+<div id="readyForTestVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="readyForTestVideoContainer">
+            <!-- Ready for test video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeReadyForTestVideo">×</div>
+    </div>
+</div>
+
+<!-- TEST BEFORE TRUST VIDEO MODAL -->
+<div id="testBeforeTrustVideoModal" class="video-modal">
+    <div class="video-modal-content">
+        <div id="testBeforeTrustVideoContainer">
+            <!-- Test before trust video content will be injected here -->
+        </div>
+        <div class="close-video" id="closeTestBeforeTrustVideo">×</div>
+    </div>
+</div>
+
+</body>
+</html>

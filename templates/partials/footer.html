@@ -1,0 +1,89 @@
+<footer class="site-footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-location">
+                    {% if footer_settings and footer_settings.google_map_embed_url %}
+                    <div class="footer-map-card">
+                        <iframe
+                            src="{{ footer_settings.google_map_embed_url }}"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Ekalavya Universys Location">
+                        </iframe>
+                    </div>
+                    {% endif %}
+
+                    {% if footer_settings and footer_settings.address %}
+                    <div class="footer-address-card">
+                        <p class="footer-kicker">Location / Address</p>
+                        <address>{{ footer_settings.address|linebreaksbr }}</address>
+                    </div>
+                    {% endif %}
+
+                    {% if footer_settings and footer_settings.google_map_share_url %}
+                    <a class="footer-share-button" href="{{ footer_settings.google_map_share_url }}" target="_blank" rel="noopener noreferrer">
+                        {{ footer_settings.share_button_text|default:"Share Location" }}
+                    </a>
+                    {% endif %}
+                </div>
+
+                <div class="footer-content">
+                    <div class="footer-quick-links">
+                        <p class="footer-kicker">Quick Links</p>
+                        <div class="footer-links-grid">
+                            {% for item in navigation_items %}
+                            <a class="footer-link-item" href="{% if item.url_name == 'home' %}{% url 'home' %}{% else %}{% url item.url_name %}{% endif %}">
+                                <span class="footer-link-label">{{ item.label }}</span>
+                                <span class="footer-link-support">{{ item.supporting_text }}</span>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="footer-social-section">
+                        <p class="footer-kicker">Connect With Us</p>
+                        <div class="footer-social-icons">
+                            {% if footer_settings and footer_settings.facebook_url %}
+                            <a class="footer-social-link" href="{{ footer_settings.facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.23.2 2.23.2v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.89h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg>
+                            </a>
+                            {% endif %}
+
+                            {% if footer_settings and footer_settings.instagram_url %}
+                            <a class="footer-social-link" href="{{ footer_settings.instagram_url }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4Zm8.7 1.15a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+                            </a>
+                            {% endif %}
+
+                            {% if footer_settings and footer_settings.youtube_url %}
+                            <a class="footer-social-link" href="{{ footer_settings.youtube_url }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.12C19.55 3.58 12 3.58 12 3.58s-7.55 0-9.4.5A3 3 0 0 0 .5 6.21 31.36 31.36 0 0 0 0 12a31.36 31.36 0 0 0 .5 5.79 3 3 0 0 0 2.1 2.12c1.85.5 9.4.5 9.4.5s7.55 0 9.4-.5a3 3 0 0 0 2.1-2.12A31.36 31.36 0 0 0 24 12a31.36 31.36 0 0 0-.5-5.79ZM9.6 15.5v-7l6.35 3.5Z"/></svg>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if footer_settings and footer_settings.elms_url %}
+                    <div class="footer-elms-card">
+                        <p class="footer-elms-eyebrow">Student Login Portal</p>
+                        <h3>Access the Ekalavya Learning Management System</h3>
+                        <a class="footer-elms-button" href="{{ footer_settings.elms_url }}" target="_blank" rel="noopener noreferrer">
+                            Go To ELMS
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if footer_settings and footer_settings.copyright_text %}
+    <div class="footer-bottom">
+        <div class="container">
+            <p>{{ footer_settings.copyright_text }}</p>
+        </div>
+    </div>
+    {% endif %}
+</footer>

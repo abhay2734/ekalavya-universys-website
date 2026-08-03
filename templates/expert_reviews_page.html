@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if page.seo_title %}{{ page.seo_title }}{% else %}Expert Reviews | Ekalavya Universys{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+{% if page.seo_description %}
+<meta name="description" content="{{ page.seo_description }}">
+{% endif %}
+{% if page.seo_keywords %}
+<meta name="keywords" content="{{ page.seo_keywords }}">
+{% endif %}
+{% endblock %}
+
+{% block body_attrs %} class="er-page-body"{% endblock %}
+
+{% block top_banner_attrs %} style="position:relative;"{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/expert_reviews_page.css' %}">
+
+{% if page and page.background_image %}
+<style>
+    .er-bg {
+        background-image: url('{{ page.background_image.url }}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+</style>
+{% endif %}
+
+<style>
+    .er-page-body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if page %}
+
+<div class="er-bg"></div>
+
+<!-- MAIN EXPERT REVIEWS SCROLL EXPERIENCE -->
+<div class="er-scroll-wrapper">
+
+    <!-- ===== OPENED SCROLL ===== -->
+    <div class="er-opened-scroll">
+        <div class="er-scroll-glow"></div>
+        <div class="er-scroll-outer">
+            <div class="er-scroll-rod-top"></div>
+            <div class="er-scroll-rod-cap-outer left"></div>
+            <div class="er-scroll-rod-cap-outer right"></div>
+
+            <div class="er-scroll-content">
+
+                <!-- ===== PAGE TITLE ===== -->
+                <section class="er-title-section">
+                    <div class="er-page-inner">
+                        <header class="er-title-header er-fade-up">
+                            <h1 class="er-page-title">{{ page.title|default:"Expert Reviews" }}</h1>
+                            {% if page.subtitle %}<p class="er-page-subtitle er-fade-up">{{ page.subtitle }}</p>{% endif %}
+                            <div class="er-title-divider er-fade-up"></div>
+                        </header>
+                    </div>
+                </section>
+
+                <!-- ===== INTRODUCTION ===== -->
+                {% if page.introduction %}
+                <section class="er-intro-section">
+                    <div class="er-page-inner">
+                        <div class="er-intro-card er-fade-up">
+                            <h2 class="er-section-title">Introduction</h2>
+                            <div class="er-intro-body">{{ page.introduction|linebreaksbr }}</div>
+                        </div>
+                    </div>
+                </section>
+                {% endif %}
+
+                <!-- ===== EXPERT REVIEWS ===== -->
+                <section class="er-reviews-section">
+                    <div class="er-page-inner">
+                        {% if reviews %}
+                            {% for review in reviews %}
+                            <article class="er-review-document er-fade-up">
+                                <header class="er-review-document-header">
+                                    {% if review.module_name %}
+                                    <h2 class="er-review-module-name">🏅 {{ review.module_name }}</h2>
+                                    {% endif %}
+                                </header>
+
+                                {% if review.cover_image %}
+                                <figure class="er-review-cover-frame">
+                                    <img src="{{ review.cover_image.url }}" alt="{{ review.module_name|default:'Expert Review' }}" class="er-review-cover" loading="lazy">
+                                </figure>
+                                {% else %}
+                                <div class="er-review-placeholder" aria-label="Review cover placeholder">
+                                    <div class="er-review-placeholder-icon" aria-hidden="true">&#128172;</div>
+                                    <p class="er-review-placeholder-text">No Cover Image</p>
+                                    <span class="er-review-placeholder-hint">Upload a cover image from the admin to display it here.</span>
+                                </div>
+                                {% endif %}
+
+                                {% with imgs=review.additional_images.all|length %}
+                                {% if imgs > 1 or review.cover_image and imgs > 0 %}
+                                <button class="er-read-full-review" data-er-toggle aria-expanded="false">Read Full Review ▼</button>
+
+                                <div class="er-review-expanded">
+                                    {% for img in review.additional_images.all %}
+                                    <figure class="er-review-cover-frame">
+                                        <img src="{{ img.image.url }}" alt="{{ img.caption|default:review.module_name }}" class="er-review-cover" loading="lazy">
+                                        {% if img.caption %}<figcaption class="er-review-additional-caption">{{ img.caption }}</figcaption>{% endif %}
+                                    </figure>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                            </article>
+                            {% endfor %}
+                        {% else %}
+                        <div class="er-empty-state er-fade-up">
+                            <div class="er-empty-icon" aria-hidden="true">&#128172;</div>
+                            <h3 class="er-empty-title">No Reviews Available</h3>
+                            <p class="er-empty-text">Expert reviews are being prepared. Please check back soon.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="er-scroll-rod-bottom"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Particles -->
+<div class="er-particles"></div>
+
+{% else %}
+
+<!-- ===== NO CONTENT ===== -->
+<section class="er-placeholder">
+    <div class="er-placeholder-inner er-fade-up">
+        <h2>EXPERT REVIEWS</h2>
+        <p>Content is being prepared. Please check back soon.</p>
+    </div>
+</section>
+
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/expert_reviews_page.js' %}"></script>
+{% endblock %}

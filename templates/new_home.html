@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if page.seo_title %}{{ page.seo_title }}{% else %}HOME | Ekalavya Universys{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+{% if page.seo_description %}
+<meta name="description" content="{{ page.seo_description }}">
+{% endif %}
+{% if page.seo_keywords %}
+<meta name="keywords" content="{{ page.seo_keywords }}">
+{% endif %}
+{% endblock %}
+
+{% block body_attrs %} class="home-page-body"{% endblock %}
+
+{% block top_banner_attrs %} style="position:relative;"{% endblock %}
+
+{% block extra_css %}
+<!-- HOME Page CSS -->
+<link rel="stylesheet" href="{% static 'css/new_home_page.css' %}">
+
+{% if page and page.background_image %}
+<style>
+    .home-bg {
+        background-image: url('{{ page.background_image.url }}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+</style>
+{% endif %}
+
+<style>
+    .home-page-body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if page %}
+
+<div class="home-bg"></div>
+
+<!-- MAIN HOME SCROLL EXPERIENCE -->
+<div class="home-scroll-wrapper">
+
+    <!-- ===== OPENED SCROLL ===== -->
+    <div class="home-opened-scroll">
+        <div class="home-scroll-glow"></div>
+        <div class="home-scroll-outer">
+            <div class="home-scroll-rod-top"></div>
+            <div class="home-scroll-rod-cap-outer left"></div>
+            <div class="home-scroll-rod-cap-outer right"></div>
+
+            <div class="home-scroll-content">
+
+                <!-- SECTION 1: Tree Diagram -->
+                {% if page.tree_diagram_image %}
+                <img src="{{ page.tree_diagram_image.url }}" alt="Tree Diagram" class="home-section-image">
+                {% else %}
+                <div class="home-image-placeholder" aria-label="Tree Diagram image placeholder">
+                    <span class="home-placeholder-icon">🖼</span>
+                    <p class="home-placeholder-text">Tree Diagram</p>
+                    <span class="home-placeholder-hint">Upload an image from the admin to display here.</span>
+                </div>
+                {% endif %}
+
+                <!-- SECTION 2: Feature Banner -->
+                {% if page.feature_banner_image %}
+                <img src="{{ page.feature_banner_image.url }}" alt="Feature Banner" class="home-section-image">
+                {% else %}
+                <div class="home-image-placeholder" aria-label="Feature Banner image placeholder">
+                    <span class="home-placeholder-icon">🖼</span>
+                    <p class="home-placeholder-text">Feature Banner</p>
+                    <span class="home-placeholder-hint">Upload an image from the admin to display here.</span>
+                </div>
+                {% endif %}
+
+                <!-- SECTION 3: AI Expert Reviews -->
+                {% if page.ai_expert_reviews_heading %}
+                <div class="home-cta-section home-reveal">
+                    <h2 class="home-cta-title">{{ page.ai_expert_reviews_heading }}</h2>
+                    {% if page.ai_expert_reviews_sub_heading %}
+                    <p class="home-cta-subtitle">{{ page.ai_expert_reviews_sub_heading }}</p>
+                    {% endif %}
+                    <a href="{{ page.ai_expert_reviews_button_link|default:'#' }}" class="home-cta-button">{{ page.ai_expert_reviews_button_text }}</a>
+                </div>
+                {% endif %}
+
+                <!-- SECTION 4: Test Before You Trust -->
+                {% if page.test_before_trust_heading %}
+                <div class="home-test-section home-reveal">
+                    <h2 class="home-test-title">{{ page.test_before_trust_heading }}</h2>
+                    {% if page.test_before_trust_subtitle %}
+                    <p class="home-test-subtitle">{{ page.test_before_trust_subtitle }}</p>
+                    {% endif %}
+                    {% if page.test_before_trust_feature1 or page.test_before_trust_feature2 or page.test_before_trust_feature3 or page.test_before_trust_feature4 or page.test_before_trust_feature5 %}
+                    <ul class="home-test-list">
+                        {% if page.test_before_trust_feature1 %}<li>{{ page.test_before_trust_feature1 }}</li>{% endif %}
+                        {% if page.test_before_trust_feature2 %}<li>{{ page.test_before_trust_feature2 }}</li>{% endif %}
+                        {% if page.test_before_trust_feature3 %}<li>{{ page.test_before_trust_feature3 }}</li>{% endif %}
+                        {% if page.test_before_trust_feature4 %}<li>{{ page.test_before_trust_feature4 }}</li>{% endif %}
+                        {% if page.test_before_trust_feature5 %}<li>{{ page.test_before_trust_feature5 }}</li>{% endif %}
+                    </ul>
+                    {% endif %}
+                    {% if page.test_before_trust_button_text %}
+                    <a href="{{ page.test_before_trust_button_link|default:'#' }}" class="home-cta-button">{{ page.test_before_trust_button_text }}</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="home-scroll-rod-bottom"></div>
+        </div>
+    </div>
+</div>
+
+{% else %}
+<!-- ===== NO CONTENT ===== -->
+<div class="home-no-content">
+    <h2>HOME</h2>
+    <p>The page awaits its content. Please return when it has been written.</p>
+</div>
+{% endif %}
+
+<!-- Floating Particles -->
+<div class="home-particles"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/new_home_page.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if page.seo_title %}{{ page.seo_title }}{% elif seo_title %}{{ seo_title }}{% else %}CLARITY | Ekalavya Universys{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+{% if page.seo_description %}
+<meta name="description" content="{{ page.seo_description }}">
+{% elif seo_description %}
+<meta name="description" content="{{ seo_description }}">
+{% endif %}
+{% if page.seo_keywords %}
+<meta name="keywords" content="{{ page.seo_keywords }}">
+{% elif seo_keywords %}
+<meta name="keywords" content="{{ seo_keywords }}">
+{% endif %}
+{% endblock %}
+
+{% block body_attrs %} class="clarity-page-body"{% endblock %}
+
+{% block top_banner_attrs %} style="position:relative;"{% endblock %}
+
+{% block extra_css %}
+<!-- CLARITY Page CSS -->
+<link rel="stylesheet" href="{% static 'css/clarity_page.css' %}">
+
+<style>
+    .clarity-page-body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+
+{% if page and page.background_image %}
+<style>
+    .clarity-bg {
+        background-image: url('{{ page.background_image.url }}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="clarity-bg"></div>
+
+    {% if page %}
+    <!-- MAIN CLARITY EXPERIENCE -->
+    <div class="clarity-scroll-wrapper">
+
+        <!-- ===== OPENED SCROLL ===== -->
+        <div class="clarity-opened-scroll">
+            <div class="clarity-scroll-glow"></div>
+            <div class="clarity-scroll-outer">
+                <div class="clarity-scroll-rod-top"></div>
+                <div class="clarity-scroll-rod-cap-outer left"></div>
+                <div class="clarity-scroll-rod-cap-outer right"></div>
+
+                <div class="clarity-scroll-content">
+
+                    {% if page.section1_image %}
+                    <img src="{{ page.section1_image.url }}" alt="Section 1 Image" class="clarity-section-image">
+                    {% else %}
+                    <div class="clarity-image-placeholder" aria-label="Section 1 image placeholder">
+                        <span class="clarity-placeholder-icon">🖼</span>
+                        <p class="clarity-placeholder-text">Section 1 Image</p>
+                        <span class="clarity-placeholder-hint">Upload an image from the admin to display here.</span>
+                    </div>
+                    {% endif %}
+
+                    {% if page.section2_image %}
+                    <img src="{{ page.section2_image.url }}" alt="Section 2 Image" class="clarity-section-image">
+                    {% else %}
+                    <div class="clarity-image-placeholder" aria-label="Section 2 image placeholder">
+                        <span class="clarity-placeholder-icon">🖼</span>
+                        <p class="clarity-placeholder-text">Section 2 Image</p>
+                        <span class="clarity-placeholder-hint">Upload an image from the admin to display here.</span>
+                    </div>
+                    {% endif %}
+
+                    <!-- CTA Section -->
+                    <div class="clarity-cta-section clarity-reveal">
+                        {% if page.cta_title %}
+                        <h2 class="clarity-cta-title">{{ page.cta_title }}</h2>
+                        {% endif %}
+                        {% if page.cta_subtitle %}
+                        <p class="clarity-cta-subtitle">{{ page.cta_subtitle }}</p>
+                        {% endif %}
+                        {% if page.cta_description %}
+                        <p class="clarity-cta-description">{{ page.cta_description|linebreaksbr }}</p>
+                        {% endif %}
+                        {% if page.cta_button_text %}
+                        <a href="{% url 'free_training' %}" class="clarity-cta-button">{{ page.cta_button_text }}</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="clarity-scroll-rod-bottom"></div>
+            </div>
+        </div>
+
+    {% else %}
+    <!-- ===== NO CONTENT ===== -->
+    <div class="clarity-no-content">
+        <h2>CLARITY</h2>
+        <p>The royal scroll awaits its content. Please return when it has been written.</p>
+    </div>
+    {% endif %}
+
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="clarity-particles"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/clarity_page.js' %}"></script>
+{% endblock %}

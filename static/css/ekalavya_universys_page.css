@@ -1,0 +1,44 @@
+/* ============================================
+   EKALAVYA UNIVERSYS PAGE - PREMIUM ANIMATIONS
+   Scoped under .ekalavya-landing to prevent bleed
+   to any other page.
+   ============================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+    /* Hero image: fade in + translateY(20px) on page load */
+    .ekalavya-landing > .hero-wrapper:first-child .hero-image {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: eku-hero-in 600ms ease-out forwards;
+    }
+
+    @keyframes eku-hero-in {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Content sections: reveal on scroll */
+    .ekalavya-landing .landing-sections .hero-wrapper {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 600ms ease-out, transform 600ms ease-out;
+    }
+
+    .ekalavya-landing .landing-sections .hero-wrapper.eku-revealed {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Images: hover lift with soft shadow increase */
+    .ekalavya-landing .hero-container {
+        transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .ekalavya-landing .hero-container:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 0 80px rgba(230, 169, 60, 0.35), 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+}

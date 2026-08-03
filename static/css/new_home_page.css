@@ -1,0 +1,504 @@
+/* ============================================
+   HOME PAGE - ROYAL SCROLL EXPERIENCE
+   Follows the CLARITY visual design language.
+   ============================================ */
+
+/* --- Background --- */
+.home-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(180, 120, 50, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(180, 120, 50, 0.08) 0%, transparent 60%),
+        var(--color-bg-primary);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* --- Floating Particles --- */
+.home-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.home-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 169, 60, 0.8) 0%, rgba(230, 169, 60, 0) 70%);
+    animation: floatUp linear infinite;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- Scroll Wrapper --- */
+.home-scroll-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- Opened Scroll Experience --- */
+.home-opened-scroll {
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+}
+
+/* Scroll outer parchment */
+.home-scroll-outer {
+    position: relative;
+    background:
+        linear-gradient(135deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(225deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(to bottom, #F4E4C1 0%, #E8D5A8 30%, #DCC89D 70%, #C8B080 100%);
+    border-radius: 12px;
+    padding: 50px 40px 40px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 80px rgba(80, 50, 20, 0.15);
+    overflow: hidden;
+}
+
+/* Parchment texture overlay */
+.home-scroll-outer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(100, 70, 30, 0.02) 3px,
+            rgba(100, 70, 30, 0.02) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 4px,
+            rgba(100, 70, 30, 0.015) 4px,
+            rgba(100, 70, 30, 0.015) 8px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Top/Bottom rod decorations */
+.home-scroll-rod-top,
+.home-scroll-rod-bottom {
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    height: 22px;
+    background: linear-gradient(180deg, #E6C87A 0%, #9B7B2A 40%, #C8A050 60%, #8B6914 100%);
+    border-radius: 6px;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 2;
+}
+
+.home-scroll-rod-top {
+    top: 0;
+}
+
+.home-scroll-rod-bottom {
+    bottom: 0;
+}
+
+.home-scroll-rod-cap-outer {
+    position: absolute;
+    top: -8px;
+    width: 30px;
+    height: 36px;
+    background: linear-gradient(180deg, #F0D88A 0%, #A08030 60%, #705010 100%);
+    border-radius: 5px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.home-scroll-rod-cap-outer.left {
+    left: -6px;
+}
+
+.home-scroll-rod-cap-outer.right {
+    right: -6px;
+}
+
+/* Content inside scroll */
+.home-scroll-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+/* Section Images */
+.home-section-image {
+    display: block;
+    max-width: 98%;
+    width: 100%;
+    max-height: none;
+    height: auto;
+    margin: 0 auto 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    object-fit: contain;
+}
+
+.home-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 24px;
+    padding: 48px 24px;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(180, 130, 70, 0.4);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.home-placeholder-icon {
+    font-size: 48px;
+    opacity: 0.7;
+}
+
+.home-placeholder-text {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #5C3D2E;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.home-placeholder-hint {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #7A5A42;
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* CTA / Section Titles */
+.home-cta-title,
+.home-test-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #5C3D2E;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.home-cta-subtitle,
+.home-test-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #8B4513;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+
+/* CTA Button */
+.home-cta-button {
+    display: inline-block;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #000;
+    background: linear-gradient(135deg, #C8A050, #8B6914);
+    padding: 14px 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(139, 105, 20, 0.3);
+    transition: all 0.3s ease;
+}
+
+.home-cta-button:hover {
+    background: linear-gradient(135deg, #D8B060, #9B7B2A);
+    box-shadow: 0 6px 24px rgba(139, 105, 20, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Test Before You Trust List */
+.home-test-list {
+    list-style: none;
+    margin: 0 auto 36px;
+    max-width: 720px;
+    text-align: left;
+    background: rgba(255, 250, 240, 0.6);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 10px;
+    padding: 32px 28px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(230, 169, 60, 0.08);
+}
+
+.home-test-list li {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #3E2B1F;
+    padding: 10px 0 10px 34px;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    position: relative;
+}
+
+.home-test-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E6A93C, #C8A050);
+    color: #fff;
+    font-weight: 900;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(139, 69, 19, 0.3);
+}
+
+.home-test-list li:last-child {
+    margin-bottom: 0;
+}
+
+/* Test Section */
+.home-test-section {
+    margin-top: 32px;
+    padding: 32px 28px;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 8px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-test-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* CTA Section */
+.home-cta-section {
+    margin-top: 32px;
+    padding: 32px 28px;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 8px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-cta-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Glow effect on scroll */
+.home-scroll-glow {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(230, 169, 60, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* --- Reveal Animation Classes --- */
+.home-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.home-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- No content state --- */
+.home-no-content {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.home-no-content h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #E6C87A;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+}
+
+.home-no-content p {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #B8A898;
+    line-height: 1.7;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .home-scroll-wrapper {
+        padding: 20px 12px;
+    }
+
+    .home-scroll-outer {
+        padding: 40px 20px 28px;
+    }
+
+    .home-cta-title,
+    .home-test-title {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+
+    .home-cta-subtitle,
+    .home-test-subtitle {
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+    }
+
+    .home-scroll-outer {
+        padding: 34px 14px 22px;
+    }
+
+    .home-section-image {
+        margin-bottom: 16px;
+    }
+
+    .home-test-list {
+        padding: 22px 18px;
+    }
+
+    .home-test-list li {
+        font-size: 14px;
+        padding: 8px 0 8px 30px;
+    }
+
+    .home-test-list li::before {
+        top: 8px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 11px;
+    }
+
+    .home-cta-button {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+    .home-cta-section,
+    .home-test-section {
+        padding: 24px 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-cta-title,
+    .home-test-title {
+        font-size: 20px;
+        letter-spacing: 0.5px;
+    }
+
+    .home-cta-subtitle,
+    .home-test-subtitle {
+        font-size: 14px;
+    }
+
+    .home-scroll-outer {
+        padding: 28px 10px 18px;
+    }
+
+    .home-scroll-rod-top,
+    .home-scroll-rod-bottom {
+        height: 14px;
+    }
+
+    .home-scroll-rod-cap-outer {
+        width: 22px;
+        height: 28px;
+        top: -6px;
+    }
+
+    .home-test-list li {
+        font-size: 13px;
+        padding: 6px 0 6px 26px;
+    }
+
+    .home-test-list li::before {
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        font-size: 10px;
+        top: 6px;
+    }
+
+    .home-cta-button {
+        padding: 10px 18px;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+    }
+}

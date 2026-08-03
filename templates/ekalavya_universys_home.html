@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Ekalavya Universys{% endblock %}
+
+{% block content %}
+
+<div class="ekalavya-landing">
+
+{% if landing_page and landing_page.hero_image %}
+<section class="hero-wrapper">
+    <div class="hero-container">
+        <img src="{{ landing_page.hero_image.url }}" class="hero-image" alt="Ekalavya Universys">
+    </div>
+</section>
+{% endif %}
+
+{% if landing_sections %}
+<div class="landing-sections">
+{% for item in landing_sections %}
+<section class="hero-wrapper">
+    <div class="hero-container">
+        <img src="{{ item.section.image.url }}" class="hero-image" alt="Landing Section">
+    </div>
+</section>
+
+{% if item.section.thumbnail %}
+<section class="hero-wrapper">
+    <div class="hero-container">
+        <img src="{{ item.section.thumbnail.url }}" class="hero-image" alt="Section Thumbnail"
+             style="cursor:pointer;"
+             data-video-type="{{ item.section.video_type }}"
+             data-youtube-url="{{ item.section.youtube_url|default:'' }}"
+             data-upload-url="{% if item.section.uploaded_video %}{{ item.section.uploaded_video.url }}{% endif %}">
+    </div>
+</section>
+{% endif %}
+{% endfor %}
+</div>
+{% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/ekalavya_universys_page.css' %}">
+<style>
+.landing-sections .hero-wrapper .hero-container {
+    max-width: 90%;
+    margin: 0 auto;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/ekalavya_universys_page.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var thumbnails = document.querySelectorAll('.hero-image[data-video-type]');
+    var modal = document.getElementById('videoModal');
+    var container = document.getElementById('videoContainer');
+    var closeBtn = document.getElementById('closeVideo');
+
+    if (!modal || !container || !closeBtn) return;
+
+    function closeVideoModal() {
+        modal.style.display = 'none';
+        if (container.querySelector('iframe')) {
+            container.querySelector('iframe').src = 'about:blank';
+        }
+        var video = container.querySelector('video');
+        if (video) {
+            video.pause();
+            video.removeAttribute('src');
+            video.load();
+        }
+        container.innerHTML = '';
+    }
+
+    function parseYouTubeId(url) {
+        if (!url) return null;
+        var trimmed = url.trim();
+        var patterns = [
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/|m\.youtube\.com\/watch\?v=|youtube\.com\/v\/)([^&\s?#]+)/,
+            /youtube\.com\/watch\?.*[?&]v=([^&\s?#]+)/
+        ];
+        for (var i = 0; i < patterns.length; i++) {
+            var match = trimmed.match(patterns[i]);
+            if (match) return match[1];
+        }
+        return null;
+    }
+
+    function openVideoModal(videoType, youtubeUrl, uploadUrl) {
+        container.innerHTML = '';
+        var trimmedYoutube = youtubeUrl ? youtubeUrl.trim() : '';
+        var trimmedUpload = uploadUrl ? uploadUrl.trim() : '';
+
+        if (videoType === 'youtube' && trimmedYoutube) {
+            var videoId = parseYouTubeId(trimmedYoutube);
+            if (videoId) {
+                var iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+                iframe.style.aspectRatio = '16 / 9';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.referrerpolicy = 'strict-origin-when-cross-origin';
+                iframe.allowFullscreen = true;
+                container.appendChild(iframe);
+            } else if (trimmedYoutube) {
+                var vid = document.createElement('video');
+                vid.src = trimmedYoutube;
+                vid.controls = true;
+                vid.autoplay = true;
+                vid.style.width = '100%';
+                vid.style.maxHeight = '80vh';
+                vid.style.background = '#000';
+                container.appendChild(vid);
+            }
+        } else if (videoType === 'upload' && trimmedUpload) {
+            var vid = document.createElement('video');
+            vid.src = trimmedUpload;
+            vid.controls = true;
+            vid.autoplay = true;
+            vid.style.width = '100%';
+            vid.style.maxHeight = '80vh';
+            vid.style.background = '#000';
+            container.appendChild(vid);
+        }
+
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    thumbnails.forEach(function(thumb) {
+        thumb.addEventListener('click', function() {
+            var videoType = thumb.getAttribute('data-video-type') || 'youtube';
+            var youtubeUrl = thumb.getAttribute('data-youtube-url') || '';
+            var uploadUrl = thumb.getAttribute('data-upload-url') || '';
+            openVideoModal(videoType, youtubeUrl, uploadUrl);
+        });
+    });
+
+    closeBtn.addEventListener('click', function() {
+        closeVideoModal();
+        document.body.style.overflow = '';
+    });
+
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeVideoModal();
+            document.body.style.overflow = '';
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            closeVideoModal();
+            document.body.style.overflow = '';
+        }
+    });
+});
+</script>
+{% endblock %}

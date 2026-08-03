@@ -1,0 +1,939 @@
+/* ============================================
+     EXPERT REVIEWS PAGE
+     Premium educational design matching
+     the Ekalavya Learning Architecture theme
+     (gold on deep brown).
+     ============================================ */
+
+/* --- Background --- */
+.er-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(180, 120, 50, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(180, 120, 50, 0.08) 0%, transparent 60%),
+        var(--color-bg-primary);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* --- Floating Particles --- */
+.er-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.er-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 169, 60, 0.8) 0%, rgba(230, 169, 60, 0) 70%);
+    animation: floatUp linear infinite;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- Scroll Wrapper --- */
+.er-scroll-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- Opened Scroll Experience --- */
+.er-opened-scroll {
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+}
+
+/* Scroll outer parchment */
+.er-scroll-outer {
+    position: relative;
+    background:
+        linear-gradient(135deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(225deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(to bottom, #F4E4C1 0%, #E8D5A8 30%, #DCC89D 70%, #C8B080 100%);
+    border-radius: 12px;
+    padding: 50px 40px 40px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 80px rgba(80, 50, 20, 0.15);
+    overflow: hidden;
+}
+
+/* Parchment texture overlay */
+.er-scroll-outer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(100, 70, 30, 0.02) 3px,
+            rgba(100, 70, 30, 0.02) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 4px,
+            rgba(100, 70, 30, 0.015) 4px,
+            rgba(100, 70, 30, 0.015) 8px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Top/Bottom rod decorations */
+.er-scroll-rod-top,
+.er-scroll-rod-bottom {
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    height: 22px;
+    background: linear-gradient(180deg, #E6C87A 0%, #9B7B2A 40%, #C8A050 60%, #8B6914 100%);
+    border-radius: 6px;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 2;
+}
+
+.er-scroll-rod-top {
+    top: 0;
+}
+
+.er-scroll-rod-bottom {
+    bottom: 0;
+}
+
+.er-scroll-rod-cap-outer {
+    position: absolute;
+    top: -8px;
+    width: 30px;
+    height: 36px;
+    background: linear-gradient(180deg, #F0D88A 0%, #A08030 60%, #705010 100%);
+    border-radius: 5px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.er-scroll-rod-cap-outer.left {
+    left: -6px;
+}
+
+.er-scroll-rod-cap-outer.right {
+    right: -6px;
+}
+
+/* Content inside scroll */
+.er-scroll-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+/* Glow effect on scroll */
+.er-scroll-glow {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(230, 169, 60, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: erGlowPulse 3s ease-in-out infinite;
+}
+
+@keyframes erGlowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* --- Page Reset --- */
+.er-page-body {
+    background: var(--color-bg-primary);
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.er-page-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* ============================================
+    PAGE TITLE
+    ============================================ */
+.er-title-section {
+    padding: 56px 24px 10px;
+    text-align: center;
+}
+
+.er-page-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    letter-spacing: 6px;
+    color: #000000;
+    margin: 0;
+    text-shadow: 0 0 24px rgba(255, 180, 60, 0.55);
+}
+
+.er-page-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #800000;
+    margin: 14px 0 0;
+}
+
+.er-title-divider {
+    width: 140px;
+    height: 3px;
+    margin: 28px auto 0;
+    background: linear-gradient(90deg, transparent, var(--color-accent-primary), transparent);
+    position: relative;
+}
+
+.er-title-divider::before {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-accent-primary);
+    font-size: 12px;
+    background: var(--color-bg-primary);
+    padding: 0 10px;
+}
+
+/* --- INTRODUCTION --- */
+.er-section-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #000000;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+}
+
+.er-intro-section {
+    padding: 40px 24px 60px;
+}
+
+.er-intro-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(230, 169, 60, 0.08);
+    padding: 44px 48px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.er-intro-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 220, 130, 0.7);
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.45), 0 0 30px rgba(230, 169, 60, 0.16);
+}
+
+.er-intro-body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.85;
+    color: #000000;
+    text-align: center;
+}
+
+.er-intro-body p {
+    margin: 0 0 1em;
+}
+
+.er-intro-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+    REVIEWS GRID
+    ============================================ */
+.er-reviews-section {
+    padding: 28px 24px 60px;
+}
+
+.er-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 28px;
+}
+
+/* ============================================
+    REVIEW CARD
+    ============================================ */
+.er-review-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 200, 100, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(230, 169, 60, 0.08);
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.er-review-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 220, 130, 0.7);
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.45), 0 0 30px rgba(230, 169, 60, 0.16);
+}
+
+/* ============================================
+    COVER IMAGE
+    ============================================ */
+.er-review-cover-frame {
+    position: relative;
+    width: 100%;
+    background: #1a1210;
+}
+
+.er-review-cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.6s ease, opacity 0.4s ease;
+}
+
+.er-review-card:hover .er-review-cover {
+    transform: scale(1.03);
+    opacity: 0.85;
+}
+
+.er-review-placeholder {
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.er-review-placeholder-icon {
+    font-size: 3.5rem;
+    line-height: 1;
+    filter: drop-shadow(0 0 14px rgba(230, 169, 60, 0.4));
+    margin-bottom: 10px;
+}
+
+.er-review-placeholder-text {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFD98E;
+    margin: 0 0 6px;
+    text-shadow: 0 0 12px rgba(255, 180, 60, 0.5);
+}
+
+.er-review-placeholder-hint {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary, #B8A898);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ============================================
+    MODULE BADGE
+    ============================================ */
+.er-review-module-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--color-accent-primary, #E6A93C), var(--color-accent-secondary, #FFB347));
+    color: var(--color-bg-primary, #3B2F2F);
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 18px rgba(230, 169, 60, 0.5);
+    z-index: 10;
+}
+
+/* ============================================
+    REVIEW INFO
+    ============================================ */
+.er-review-info {
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.er-review-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: #FFD98E;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    text-shadow: 0 0 10px rgba(255, 180, 60, 0.4);
+    line-height: 1.3;
+}
+
+.er-review-summary {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-primary, #F5E9D8);
+    margin: 0 0 18px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    flex: 1;
+}
+
+/* ============================================
+    KEY TAKEAWAY
+    ============================================ */
+.er-review-key-takeaway {
+    background: linear-gradient(135deg, rgba(230, 169, 60, 0.12), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(230, 169, 60, 0.35);
+    border-left: 4px solid var(--color-accent-primary, #E6A93C);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 18px;
+}
+
+.er-review-key-takeaway-label {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-accent-primary, #E6A93C);
+    margin: 0 0 6px;
+    text-shadow: 0 0 8px rgba(230, 169, 60, 0.4);
+}
+
+.er-review-key-takeaway-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-primary, #F5E9D8);
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+    READ FULL REVIEW BUTTON
+    ============================================ */
+.er-read-full-review {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 44px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    color: var(--color-bg-primary, #3B2F2F);
+    background: linear-gradient(135deg, var(--color-accent-primary, #E6A93C), var(--color-accent-secondary, #FFB347));
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    font-family: 'Lato', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(230, 169, 60, 0.22);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    cursor: pointer;
+}
+
+.er-read-full-review:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, var(--color-accent-secondary, #FFB347), var(--color-accent-primary, #E6A93C));
+    box-shadow: 0 12px 32px rgba(230, 169, 60, 0.35);
+    color: var(--color-bg-primary, #3B2F2F);
+}
+
+/* ============================================
+    EXPANDABLE REVIEW SECTION
+    ============================================ */
+.er-review-expanded {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.35s ease;
+    opacity: 0;
+}
+
+.er-review-card.expanded .er-review-expanded,
+.er-review-document.expanded .er-review-expanded {
+    max-height: none;
+    opacity: 1;
+    overflow: visible;
+}
+
+.er-review-expanded-inner {
+    padding: 0 24px 24px;
+    border-top: 1px solid rgba(230, 169, 60, 0.15);
+    margin-top: 0;
+    padding-top: 20px;
+}
+
+.er-review-expanded-body {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    line-height: 1.8;
+    color: var(--color-text-secondary, #B8A898);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.er-review-expanded-body p {
+    margin: 0 0 0.8em;
+}
+
+.er-review-expanded-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+     ADDITIONAL IMAGES
+     ============================================ */
+.er-review-additional-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.er-review-additional-image {
+    margin: 0;
+    border-radius: 12px;
+    border: 1px solid rgba(230, 169, 60, 0.25);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.er-review-additional-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.5s ease, opacity 0.4s ease;
+}
+
+.er-review-additional-image:hover img {
+    transform: scale(1.03);
+    opacity: 0.85;
+}
+
+.er-review-additional-caption {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary, #B8A898);
+    text-align: center;
+    padding: 10px 14px;
+    margin: 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================
+     EMPTY STATE
+     ============================================ */
+.er-empty-state {
+    text-align: center;
+    max-width: 520px;
+    margin: 20px auto 0;
+    padding: 56px 32px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 200, 100, 0.35);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 24px rgba(230, 169, 60, 0.08);
+}
+
+.er-empty-icon {
+    font-size: 3.5rem;
+    line-height: 1;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 0 16px rgba(230, 169, 60, 0.4));
+}
+
+.er-empty-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: #FFD98E;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    text-shadow: 0 0 16px rgba(255, 180, 60, 0.5);
+}
+
+.er-empty-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.05rem;
+    color: var(--color-text-secondary, #B8A898);
+    line-height: 1.7;
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+    PLACEHOLDER (no page content)
+    ============================================ */
+.er-placeholder {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-primary);
+    padding: 80px 24px;
+}
+
+.er-placeholder-inner {
+    text-align: center;
+    max-width: 600px;
+    padding: 60px 40px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(230, 169, 60, 0.6);
+    box-shadow: 0 0 40px rgba(230, 169, 60, 0.15);
+}
+
+.er-placeholder-inner h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: #FFD98E;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+    text-shadow: 0 0 20px rgba(255, 200, 80, 0.8);
+}
+
+.er-placeholder-inner p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    color: #ffffff;
+    line-height: 1.7;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+    SCROLL REVEAL
+    ============================================ */
+.er-fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.er-fade-up.er-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered reveal for grid items */
+.er-reviews-grid .er-fade-up:nth-child(1) { transition-delay: 0s; }
+.er-reviews-grid .er-fade-up:nth-child(2) { transition-delay: 0.1s; }
+.er-reviews-grid .er-fade-up:nth-child(3) { transition-delay: 0.2s; }
+.er-reviews-grid .er-fade-up:nth-child(4) { transition-delay: 0.3s; }
+.er-reviews-grid .er-fade-up:nth-child(5) { transition-delay: 0.4s; }
+.er-reviews-grid .er-fade-up:nth-child(6) { transition-delay: 0.5s; }
+.er-reviews-grid .er-fade-up:nth-child(n+7) { transition-delay: 0.6s; }
+
+/* ============================================
+    RESPONSIVE - LAPTOP
+    ============================================ */
+@media (max-width: 1200px) {
+    .er-scroll-wrapper {
+        padding: 40px 20px;
+    }
+
+    .er-page-inner {
+        max-width: 900px;
+    }
+
+    .er-intro-card {
+        padding: 40px 44px;
+    }
+}
+
+/* ============================================
+    RESPONSIVE - TABLET
+    ============================================ */
+@media (max-width: 992px) {
+    .er-scroll-wrapper {
+        padding: 40px 20px;
+    }
+
+    .er-scroll-outer {
+        padding: 44px 32px 36px;
+    }
+
+    .er-page-inner {
+        padding: 0 20px;
+    }
+
+    .er-title-section {
+        padding: 48px 20px 8px;
+    }
+
+    .er-intro-section,
+    .er-reviews-section {
+        padding: 40px 20px 60px;
+    }
+
+    .er-intro-card {
+        padding: 32px 36px;
+        border-radius: 18px;
+    }
+
+    .er-review-card {
+        border-radius: 18px;
+    }
+
+    .er-review-info {
+        padding: 18px 22px 22px;
+    }
+}
+
+/* ============================================
+    RESPONSIVE - MOBILE
+    ============================================ */
+@media (max-width: 768px) {
+    .er-scroll-wrapper {
+        padding: 20px 12px;
+    }
+
+    .er-scroll-outer {
+        padding: 40px 20px 28px;
+    }
+
+    .er-title-section {
+        padding: 32px 16px 24px;
+    }
+
+    .er-page-inner {
+        padding: 0 16px;
+    }
+
+    .er-intro-section,
+    .er-reviews-section {
+        padding: 32px 16px 48px;
+    }
+
+    .er-intro-card {
+        padding: 28px 24px;
+        border-radius: 16px;
+    }
+
+    .er-intro-body {
+        font-size: 1.05rem;
+    }
+
+    .er-reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .er-review-card {
+        border-radius: 16px;
+    }
+
+    .er-review-info {
+        padding: 18px 20px 20px;
+    }
+
+    .er-review-title {
+        font-size: 1.05rem;
+    }
+
+    .er-review-summary {
+        font-size: 0.95rem;
+    }
+
+    .er-review-placeholder {
+        min-height: 140px;
+        padding: 28px 20px;
+    }
+
+    .er-review-placeholder-icon {
+        font-size: 2.8rem;
+    }
+}
+
+/* ============================================
+    RESPONSIVE - SMALL MOBILE
+    ============================================ */
+@media (max-width: 480px) {
+    .er-scroll-wrapper {
+        padding: 20px 12px;
+    }
+
+    .er-scroll-outer {
+        padding: 28px 10px 18px;
+    }
+
+    .er-scroll-rod-top,
+    .er-scroll-rod-bottom {
+        height: 14px;
+    }
+
+    .er-scroll-rod-cap-outer {
+        width: 22px;
+        height: 28px;
+        top: -6px;
+    }
+
+    .er-title-section {
+        padding: 24px 12px 20px;
+    }
+
+    .er-page-inner {
+        padding: 0 12px;
+    }
+
+    .er-intro-section,
+    .er-reviews-section {
+        padding: 24px 12px 40px;
+    }
+
+    .er-intro-card {
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+
+    .er-intro-body {
+        font-size: 0.98rem;
+    }
+
+    .er-review-info {
+        padding: 16px 18px 18px;
+    }
+
+    .er-review-title {
+        font-size: 1rem;
+    }
+
+    .er-review-summary {
+        font-size: 0.9rem;
+    }
+
+    .er-review-expanded-inner {
+        padding: 0 18px 18px;
+    }
+
+    .er-review-placeholder {
+        min-height: 120px;
+        padding: 24px 18px;
+    }
+
+    .er-review-placeholder-icon {
+        font-size: 2.2rem;
+    }
+
+    .er-review-placeholder-text {
+        font-size: 0.9rem;
+    }
+
+    .er-placeholder-inner {
+        padding: 44px 24px;
+    }
+
+    .er-placeholder-inner h2 {
+        font-size: 1.8rem;
+    }
+
+    .er-empty-state {
+        padding: 44px 24px;
+    }
+
+    .er-empty-icon {
+        font-size: 2.8rem;
+    }
+
+    .er-empty-title {
+        font-size: 1.3rem;
+    }
+
+    .er-empty-text {
+        font-size: 0.95rem;
+    }
+}
+
+/* ============================================
+   EXPERT REVIEW DOCUMENT VIEW
+   ============================================ */
+.er-review-document {
+    max-width: 900px;
+    margin: 0 auto 56px;
+    padding: 0;
+}
+
+.er-review-document-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.er-review-module-name {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: #000000;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(255, 180, 60, 0.5);
+}

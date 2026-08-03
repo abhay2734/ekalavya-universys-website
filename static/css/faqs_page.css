@@ -1,0 +1,478 @@
+/* ============================================
+    FAQS PAGE - ROYAL SCROLL EXPERIENCE
+    Follows the proven Ekalavya scroll pattern.
+    ============================================ */
+
+/* --- Page Reset --- */
+.faqs-page-body {
+    background: var(--color-bg-primary);
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+/* --- Background --- */
+.faqs-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(180, 120, 50, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(180, 120, 50, 0.08) 0%, transparent 60%),
+        var(--color-bg-primary);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* --- Floating Particles --- */
+.faqs-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.faqs-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 169, 60, 0.8) 0%, rgba(230, 169, 60, 0) 70%);
+    animation: floatUp linear infinite;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- Scroll Wrapper --- */
+.faqs-scroll-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- Opened Scroll Experience --- */
+.faqs-opened-scroll {
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+}
+
+/* Scroll outer parchment */
+.faqs-scroll-outer {
+    position: relative;
+    background:
+        linear-gradient(135deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(225deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(to bottom, #F4E4C1 0%, #E8D5A8 30%, #DCC89D 70%, #C8B080 100%);
+    border-radius: 12px;
+    padding: 50px 40px 40px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 80px rgba(80, 50, 20, 0.15);
+    overflow: hidden;
+}
+
+/* Parchment texture overlay */
+.faqs-scroll-outer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(100, 70, 30, 0.02) 3px,
+            rgba(100, 70, 30, 0.02) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 4px,
+            rgba(100, 70, 30, 0.015) 4px,
+            rgba(100, 70, 30, 0.015) 8px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Top/Bottom rod decorations */
+.faqs-scroll-rod-top,
+.faqs-scroll-rod-bottom {
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    height: 22px;
+    background: linear-gradient(180deg, #E6C87A 0%, #9B7B2A 40%, #C8A050 60%, #8B6914 100%);
+    border-radius: 6px;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 2;
+}
+
+.faqs-scroll-rod-top {
+    top: 0;
+}
+
+.faqs-scroll-rod-bottom {
+    bottom: 0;
+}
+
+.faqs-scroll-rod-cap-outer {
+    position: absolute;
+    top: -8px;
+    width: 30px;
+    height: 36px;
+    background: linear-gradient(180deg, #F0D88A 0%, #A08030 60%, #705010 100%);
+    border-radius: 5px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.faqs-scroll-rod-cap-outer.left {
+    left: -6px;
+}
+
+.faqs-scroll-rod-cap-outer.right {
+    right: -6px;
+}
+
+/* Scroll glow effect */
+.faqs-scroll-glow {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(230, 169, 60, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* Content inside scroll */
+.faqs-scroll-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- PAGE TITLE --- */
+.faqs-title-section {
+    background: transparent;
+    padding: 0 0 10px;
+    text-align: center;
+}
+
+.faqs-page-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #000000;
+    margin: 0;
+    text-shadow: 0 0 24px rgba(255, 180, 60, 0.55);
+}
+
+.faqs-page-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: maroon;
+    margin: 14px 0 0;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.faqs-title-divider {
+    width: 140px;
+    height: 3px;
+    margin: 28px auto 0;
+    background: linear-gradient(90deg, transparent, var(--color-accent-primary), transparent);
+    position: relative;
+}
+
+.faqs-title-divider::before {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-accent-primary);
+    font-size: 12px;
+    background: var(--color-bg-primary);
+    padding: 0 10px;
+}
+
+/* --- FAQS ACCORDION --- */
+.faqs-body-section {
+    background: transparent;
+    padding: 40px 0 0;
+}
+
+.faqs-page-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.faqs-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.faqs-accordion-item {
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.faqs-accordion-item:hover {
+    border-color: rgba(230, 169, 60, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 24px rgba(230, 169, 60, 0.08);
+    transform: translateY(-2px);
+}
+
+.faqs-accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 28px;
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary, #F5E9D8);
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.faqs-accordion-trigger:hover {
+    color: #FFD98E;
+}
+
+.faqs-accordion-trigger:focus {
+    outline: 2px solid var(--color-accent-primary);
+    outline-offset: -2px;
+    border-radius: 16px;
+}
+
+.faqs-question-text {
+    flex: 1;
+    color: #000000;
+}
+
+.faqs-accordion-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(230, 169, 60, 0.15);
+    color: var(--color-accent-primary);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.3s ease;
+}
+
+.faqs-accordion-item.active .faqs-accordion-icon {
+    transform: rotate(180deg);
+    background: rgba(230, 169, 60, 0.3);
+}
+
+/* --- ACCORDION PANEL --- */
+.faqs-accordion-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.35s ease;
+    opacity: 0;
+}
+
+.faqs-accordion-panel[hidden] {
+    display: block;
+}
+
+.faqs-accordion-item.active .faqs-accordion-panel {
+    opacity: 1;
+}
+
+.faqs-accordion-panel-inner {
+    padding: 0 28px 28px;
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    line-height: 1.8;
+    color: maroon;
+    border-top: 1px solid rgba(230, 169, 60, 0.15);
+    margin-top: 0;
+    padding-top: 20px;
+}
+
+/* --- EMPTY STATE --- */
+.faqs-empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    color: var(--color-text-secondary, #B8A898);
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(230, 169, 60, 0.2);
+    border-radius: 16px;
+}
+
+/* --- NO CONTENT --- */
+.faqs-no-content {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.faqs-no-content h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #E6C87A;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+}
+
+.faqs-no-content p {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #B8A898;
+    line-height: 1.7;
+}
+
+/* --- Reveal Animation --- */
+.faqs-fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.faqs-fade-up.faqs-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .faqs-scroll-wrapper {
+        padding: 20px 12px;
+    }
+
+    .faqs-scroll-outer {
+        padding: 40px 20px 28px;
+    }
+
+    .faqs-accordion-trigger {
+        padding: 18px 20px;
+        font-size: 0.95rem;
+    }
+
+    .faqs-accordion-panel-inner {
+        padding: 0 20px 20px;
+        font-size: 0.9rem;
+    }
+
+    .faqs-accordion-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .faqs-scroll-rod-top,
+    .faqs-scroll-rod-bottom {
+        height: 14px;
+    }
+
+    .faqs-scroll-rod-cap-outer {
+        width: 22px;
+        height: 28px;
+        top: -6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .faqs-title-section {
+        padding: 0 0 8px;
+    }
+
+    .faqs-body-section {
+        padding: 24px 0 0;
+    }
+
+    .faqs-page-inner {
+        padding: 0 16px;
+    }
+
+    .faqs-accordion-trigger {
+        padding: 16px 18px;
+        font-size: 0.9rem;
+    }
+
+    .faqs-accordion-panel-inner {
+        padding: 0 18px 18px;
+        font-size: 0.85rem;
+    }
+
+    .faqs-scroll-outer {
+        padding: 28px 10px 18px;
+    }
+
+    .faqs-scroll-rod-top,
+    .faqs-scroll-rod-bottom {
+        height: 14px;
+    }
+
+    .faqs-scroll-rod-cap-outer {
+        width: 22px;
+        height: 28px;
+        top: -6px;
+    }
+}

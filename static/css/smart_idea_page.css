@@ -1,0 +1,400 @@
+/* ============================================
+   SMART-50 PAGE - ROYAL SCROLL EXPERIENCE
+   Follows the HOME page frontend approach.
+   ============================================ */
+
+/* --- Background --- */
+.smart-idea-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(180, 120, 50, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(180, 120, 50, 0.08) 0%, transparent 60%),
+        var(--color-bg-primary);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* --- Floating Particles --- */
+.smart-idea-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.smart-idea-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 169, 60, 0.8) 0%, rgba(230, 169, 60, 0) 70%);
+    animation: floatUp linear infinite;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- Scroll Wrapper --- */
+.smart-idea-scroll-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- Opened Scroll Experience --- */
+.smart-idea-opened-scroll {
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+}
+
+/* Scroll outer parchment */
+.smart-idea-scroll-outer {
+    position: relative;
+    background:
+        linear-gradient(135deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(225deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(to bottom, #F4E4C1 0%, #E8D5A8 30%, #DCC89D 70%, #C8B080 100%);
+    border-radius: 12px;
+    padding: 50px 40px 40px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 80px rgba(80, 50, 20, 0.15);
+    overflow: hidden;
+}
+
+/* Parchment texture overlay */
+.smart-idea-scroll-outer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(100, 70, 30, 0.02) 3px,
+            rgba(100, 70, 30, 0.02) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 4px,
+            rgba(100, 70, 30, 0.015) 4px,
+            rgba(100, 70, 30, 0.015) 8px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Top/Bottom rod decorations */
+.smart-idea-scroll-rod-top,
+.smart-idea-scroll-rod-bottom {
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    height: 22px;
+    background: linear-gradient(180deg, #E6C87A 0%, #9B7B2A 40%, #C8A050 60%, #8B6914 100%);
+    border-radius: 6px;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 2;
+}
+
+.smart-idea-scroll-rod-top {
+    top: 0;
+}
+
+.smart-idea-scroll-rod-bottom {
+    bottom: 0;
+}
+
+.smart-idea-scroll-rod-cap-outer {
+    position: absolute;
+    top: -8px;
+    width: 30px;
+    height: 36px;
+    background: linear-gradient(180deg, #F0D88A 0%, #A08030 60%, #705010 100%);
+    border-radius: 5px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.smart-idea-scroll-rod-cap-outer.left {
+    left: -6px;
+}
+
+.smart-idea-scroll-rod-cap-outer.right {
+    right: -6px;
+}
+
+/* Content inside scroll */
+.smart-idea-scroll-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+/* Section Images */
+.smart-idea-section-image {
+    display: block;
+    max-width: 98%;
+    width: 100%;
+    max-height: none;
+    height: auto;
+    margin: 0 auto 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    object-fit: contain;
+}
+
+.smart-idea-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 24px;
+    padding: 48px 24px;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(180, 130, 70, 0.4);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.smart-idea-placeholder-icon {
+    font-size: 48px;
+    opacity: 0.7;
+}
+
+.smart-idea-placeholder-text {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #5C3D2E;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.smart-idea-placeholder-hint {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #7A5A42;
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* Journey Section */
+.smart-idea-journey-section {
+    margin-top: 32px;
+    padding: 32px 28px;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.smart-idea-journey-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.smart-idea-journey-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.smart-idea-journey-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #000;
+    background: linear-gradient(135deg, #C8A050, #8B6914);
+    padding: 14px 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(139, 105, 20, 0.3);
+    transition: all 0.3s ease;
+}
+
+.smart-idea-journey-btn:hover {
+    background: linear-gradient(135deg, #D8B060, #9B7B2A);
+    box-shadow: 0 6px 24px rgba(139, 105, 20, 0.4);
+    transform: translateY(-2px);
+}
+
+.smart-idea-journey-btn-icon {
+    font-size: 1.2rem;
+}
+
+.smart-idea-journey-btn-arrow {
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+/* Glow effect on scroll */
+.smart-idea-scroll-glow {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(230, 169, 60, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* --- Reveal Animation Classes --- */
+.smart-idea-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.smart-idea-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- No content state --- */
+.smart-idea-no-content {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.smart-idea-no-content h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #E6C87A;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+}
+
+.smart-idea-no-content p {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #B8A898;
+    line-height: 1.7;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .smart-idea-scroll-wrapper {
+        padding: 20px 12px;
+    }
+
+    .smart-idea-scroll-outer {
+        padding: 40px 20px 28px;
+    }
+
+    .smart-idea-scroll-outer {
+        padding: 34px 14px 22px;
+    }
+
+    .smart-idea-section-image {
+        margin-bottom: 16px;
+    }
+
+    .smart-idea-image-placeholder {
+        padding: 32px 18px;
+    }
+
+    .smart-idea-journey-title {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+
+    .smart-idea-journey-section {
+        padding: 24px 18px;
+    }
+
+    .smart-idea-journey-btn {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .smart-idea-journey-title {
+        font-size: 20px;
+        letter-spacing: 0.5px;
+    }
+
+    .smart-idea-scroll-outer {
+        padding: 28px 10px 18px;
+    }
+
+    .smart-idea-scroll-rod-top,
+    .smart-idea-scroll-rod-bottom {
+        height: 14px;
+    }
+
+    .smart-idea-scroll-rod-cap-outer {
+        width: 22px;
+        height: 28px;
+        top: -6px;
+    }
+
+    .smart-idea-journey-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+        width: 100%;
+        text-align: center;
+    }
+}

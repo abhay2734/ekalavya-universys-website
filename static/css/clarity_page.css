@@ -1,0 +1,770 @@
+/* ============================================
+   CLARITY PAGE - ROYAL SCROLL EXPERIENCE
+   ============================================ */
+
+/* --- SEO Meta Tags (injected by view) --- */
+
+/* --- Background --- */
+.clarity-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(180, 120, 50, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(180, 120, 50, 0.08) 0%, transparent 60%),
+        var(--color-bg-primary);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* --- Floating Particles --- */
+.clarity-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.clarity-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 169, 60, 0.8) 0%, rgba(230, 169, 60, 0) 70%);
+    animation: floatUp linear infinite;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- Scroll Wrapper --- */
+.clarity-scroll-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+/* --- Opened Scroll Experience --- */
+.clarity-opened-scroll {
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Scroll outer parchment */
+.clarity-scroll-outer {
+    position: relative;
+    background:
+        linear-gradient(135deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(225deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(to bottom, #F4E4C1 0%, #E8D5A8 30%, #DCC89D 70%, #C8B080 100%);
+    border-radius: 12px;
+    padding: 50px 40px 40px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 80px rgba(80, 50, 20, 0.15);
+    overflow: hidden;
+}
+
+/* Parchment texture overlay */
+.clarity-scroll-outer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(100, 70, 30, 0.02) 3px,
+            rgba(100, 70, 30, 0.02) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 4px,
+            rgba(100, 70, 30, 0.015) 4px,
+            rgba(100, 70, 30, 0.015) 8px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Top/Bottom rod decorations */
+.clarity-scroll-rod-top,
+.clarity-scroll-rod-bottom {
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    height: 22px;
+    background: linear-gradient(180deg, #E6C87A 0%, #9B7B2A 40%, #C8A050 60%, #8B6914 100%);
+    border-radius: 6px;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 2;
+}
+
+.clarity-scroll-rod-top {
+    top: 0;
+}
+
+.clarity-scroll-rod-bottom {
+    bottom: 0;
+}
+
+.clarity-scroll-rod-cap-outer {
+    position: absolute;
+    top: -8px;
+    width: 30px;
+    height: 36px;
+    background: linear-gradient(180deg, #F0D88A 0%, #A08030 60%, #705010 100%);
+    border-radius: 5px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.clarity-scroll-rod-cap-outer.left {
+    left: -6px;
+}
+
+.clarity-scroll-rod-cap-outer.right {
+    right: -6px;
+}
+
+/* Content inside scroll */
+.clarity-scroll-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+/* Tree Architecture Image */
+.clarity-tree-img {
+    display: block;
+    max-width: 98%;
+    width: 100%;
+    max-height: none;
+    height: auto;
+    margin: 0 auto 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    object-fit: contain;
+}
+
+.clarity-tree-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 32px;
+    padding: 48px 24px;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(180, 130, 70, 0.4);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.clarity-tree-placeholder-icon {
+    font-size: 48px;
+    opacity: 0.7;
+}
+
+.clarity-tree-placeholder-text {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #5C3D2E;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.clarity-tree-placeholder-hint {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #7A5A42;
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* Royal title */
+.clarity-royal-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 52px;
+    color: #5C3D2E;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.clarity-royal-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #7A5A42;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+}
+
+/* Decorative divider */
+.clarity-divider {
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #C8A050, transparent);
+    margin: 0 auto 32px;
+    position: relative;
+}
+
+.clarity-divider::before {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #C8A050;
+    font-size: 10px;
+    background: #E8D5A8;
+    padding: 0 8px;
+}
+
+/* Main content sections */
+.clarity-section {
+    margin-bottom: 40px;
+    padding: 28px 24px;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 8px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clarity-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.clarity-section-heading {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #5C3D2E;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(180, 130, 70, 0.4);
+}
+
+.clarity-section-body {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #3E2B1F;
+    line-height: 1.8;
+}
+
+.clarity-section-body strong {
+    color: #8B4513;
+}
+
+/* Golden Quote Box */
+.clarity-golden-quote {
+    background: linear-gradient(135deg, rgba(200, 160, 80, 0.2) 0%, rgba(230, 169, 60, 0.15) 100%);
+    border: 2px solid #C8A050;
+    border-radius: 10px;
+    padding: 28px 24px;
+    margin: 20px 0;
+    position: relative;
+    text-align: center;
+}
+
+.clarity-golden-quote::before {
+    content: '"';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    font-size: 60px;
+    color: #C8A050;
+    font-family: Georgia, serif;
+    line-height: 1;
+    opacity: 0.4;
+}
+
+.clarity-golden-quote p {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #5C3D2E;
+    line-height: 1.6;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Success / Principle blocks */
+.clarity-principle-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    padding: 20px 20px;
+    margin: 16px 0;
+    border-left: 4px solid #C8A050;
+}
+
+.clarity-principle-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, #E6A93C, #C8A050);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.clarity-principle-text {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #3E2B1F;
+    line-height: 1.7;
+}
+
+/* CLARITY-50 + SMART-50 highlight */
+.clarity-formula-highlight {
+    display: inline-block;
+    background: linear-gradient(135deg, #E6A93C, #C8A050);
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    padding: 4px 14px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Emphasis line within content */
+.clarity-emphasis {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 19px;
+    color: #8B4513;
+    text-align: center;
+    letter-spacing: 0.5px;
+    margin: 18px 0 0;
+}
+
+/* Bullet list (questions / concepts) */
+.clarity-bullet-list {
+    list-style: none;
+    margin: 16px 0;
+    padding: 0;
+}
+
+.clarity-bullet-list li {
+    position: relative;
+    padding: 6px 0 6px 28px;
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #3E2B1F;
+    line-height: 1.6;
+}
+
+.clarity-bullet-list li::before {
+    content: '◆';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    color: #C8A050;
+    font-size: 12px;
+}
+
+/* Check list (outcomes / what you build) */
+.clarity-check-list {
+    list-style: none;
+    margin: 16px 0 4px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 10px 24px;
+}
+
+.clarity-check-list li {
+    position: relative;
+    padding: 8px 0 8px 34px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #3E2B1F;
+    line-height: 1.5;
+}
+
+.clarity-check-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E6A93C, #C8A050);
+    color: #fff;
+    font-weight: 900;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(139, 69, 19, 0.3);
+}
+
+/* --- Reveal Animation Classes --- */
+.clarity-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.clarity-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Glow effect on scroll --- */
+.clarity-scroll-glow {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(230, 169, 60, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* --- No content state --- */
+.clarity-no-content {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.clarity-no-content h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #E6C87A;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+}
+
+.clarity-no-content p {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    color: #B8A898;
+    line-height: 1.7;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .clarity-scroll-wrapper {
+        padding: 20px 12px;
+    }
+
+    .clarity-scroll-outer {
+        padding: 40px 20px 28px;
+    }
+
+    .clarity-royal-title {
+        font-size: 32px;
+        letter-spacing: 3px;
+    }
+
+    .clarity-royal-subtitle {
+        font-size: 12px;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+    }
+
+    .clarity-section {
+        padding: 18px 14px;
+    }
+
+    .clarity-section-heading {
+        font-size: 18px;
+    }
+
+    .clarity-section-body {
+        font-size: 14px;
+    }
+
+    .clarity-golden-quote {
+        padding: 18px 16px;
+    }
+
+    .clarity-golden-quote p {
+        font-size: 16px;
+    }
+
+    .clarity-principle-block {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .clarity-royal-title {
+        font-size: 26px;
+        letter-spacing: 2px;
+    }
+
+    .clarity-royal-subtitle {
+        font-size: 11px;
+    }
+
+    .clarity-scroll-outer {
+        padding: 34px 14px 22px;
+    }
+}
+
+/* --- CTA Section --- */
+.clarity-cta-section {
+    margin-top: 32px;
+    padding: 32px 28px;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clarity-cta-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.clarity-cta-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    color: #5C3D2E;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.clarity-cta-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #8B4513;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+}
+
+.clarity-cta-description {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #3E2B1F;
+    line-height: 1.8;
+    margin-bottom: 24px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.clarity-cta-button {
+    display: inline-block;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: #000;
+    background: linear-gradient(135deg, #C8A050, #8B6914);
+    padding: 14px 32px;
+    border-radius: 6px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 16px rgba(139, 105, 20, 0.3);
+    transition: all 0.3s ease;
+}
+
+.clarity-cta-button:hover {
+    background: linear-gradient(135deg, #D8B060, #9B7B2A);
+    box-shadow: 0 6px 24px rgba(139, 105, 20, 0.4);
+    transform: translateY(-2px);
+}
+
+/* --- Section Images --- */
+.clarity-section-image {
+    display: block;
+    max-width: 98%;
+    width: 100%;
+    max-height: none;
+    height: auto;
+    margin: 0 auto 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    object-fit: contain;
+}
+
+.clarity-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto 24px;
+    padding: 48px 24px;
+    max-width: 90%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(180, 130, 70, 0.4);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.clarity-placeholder-icon {
+    font-size: 48px;
+    opacity: 0.7;
+}
+
+.clarity-placeholder-text {
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #5C3D2E;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.clarity-placeholder-hint {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: #7A5A42;
+    line-height: 1.6;
+    max-width: 400px;
+}
+
+/* ============================================
+   CLARITY PAGE - LEARNING JOURNEY COLOR OVERRIDE
+   Matches the palette of other CLARITY sections.
+   Scoped so it does NOT affect other pages.
+   ============================================ */
+
+.clarity-page-body .clarity-scroll-content .lj-title {
+    color: #5C3D2E;
+    text-shadow: none;
+}
+
+.clarity-page-body .clarity-scroll-content .lj-subtitle {
+    color: #7A5A42;
+}
+
+.clarity-page-body .clarity-scroll-content .lj-card {
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.clarity-page-body .clarity-scroll-content .lj-step--active .lj-card {
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.6) 0%, rgba(240, 225, 200, 0.4) 100%);
+    border: 1.5px solid rgba(180, 130, 70, 0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.clarity-page-body .clarity-scroll-content .lj-step--completed .lj-card {
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border-color: rgba(180, 130, 70, 0.4);
+}
+
+.clarity-page-body .clarity-scroll-content .lj-stage-name {
+    color: #5C3D2E;
+    text-shadow: none;
+}
+
+.clarity-page-body .clarity-scroll-content .lj-stage-desc {
+    color: #3E2B1F;
+}
+
+.clarity-page-body .clarity-scroll-content .lj-step-label {
+    color: #8B4513;
+    text-shadow: none;
+}
+
+.clarity-page-body .clarity-scroll-content .lj-node-dot {
+    background: #5C3D2E;
+    border-color: #C8A050;
+    box-shadow: 0 0 0 5px rgba(180, 130, 70, 0.12);
+}
+
+.clarity-page-body .clarity-scroll-content .lj-step--active .lj-node-dot {
+    background: #C8A050;
+    border-color: #5C3D2E;
+    box-shadow: 0 0 0 5px rgba(180, 130, 70, 0.22), 0 0 14px rgba(180, 130, 70, 0.5);
+}
+
+.clarity-page-body .clarity-scroll-content .lj-step--completed .lj-node-dot {
+    background: #C8A050;
+    border-color: #5C3D2E;
+    box-shadow: 0 0 0 5px rgba(180, 130, 70, 0.12), 0 0 10px rgba(180, 130, 70, 0.4);
+}
+
+.clarity-page-body .clarity-scroll-content .lj-here-badge {
+    background: linear-gradient(135deg, #E6A93C, #C8A050);
+    color: #5C3D2E;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 12px rgba(200, 160, 80, 0.3);
+}
+
+.clarity-page-body .clarity-scroll-content .lj-completed-badge {
+    background: rgba(200, 160, 80, 0.15);
+    border: 1px solid rgba(200, 160, 80, 0.6);
+    color: #5C3D2E;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 10px rgba(200, 160, 80, 0.2);
+}

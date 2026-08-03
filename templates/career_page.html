@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if page.seo_title %}{{ page.seo_title }}{% else %}Choose the Right Branch | Ekalavya Universys{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+{% if page.seo_description %}
+<meta name="description" content="{{ page.seo_description }}">
+{% endif %}
+{% if page.seo_keywords %}
+<meta name="keywords" content="{{ page.seo_keywords }}">
+{% endif %}
+{% endblock %}
+
+{% block body_attrs %} class="cr-page-body"{% endblock %}
+
+{% block top_banner_attrs %} style="position:relative;"{% endblock %}
+
+{% block content %}
+
+{% if page %}
+
+<div class="cr-bg"></div>
+
+<!-- MAIN CAREER SCROLL EXPERIENCE -->
+<div class="cr-scroll-wrapper">
+
+    <!-- ===== OPENED SCROLL ===== -->
+    <div class="cr-opened-scroll">
+        <div class="cr-scroll-glow"></div>
+        <div class="cr-scroll-outer">
+            <div class="cr-scroll-rod-top"></div>
+            <div class="cr-scroll-rod-cap-outer left"></div>
+            <div class="cr-scroll-rod-cap-outer right"></div>
+
+            <div class="cr-scroll-content">
+
+                <!-- ===== SECTION 1 - LARGE TITLE ===== -->
+                <section class="cr-section-1 cr-fade-up">
+                    <h1 class="cr-large-title">{{ page.page_title }}</h1>
+                </section>
+
+                <!-- ===== SECTION 2 - CAREER TREE IMAGE ===== -->
+                <section class="cr-section-2 cr-fade-up">
+                    {% if page.career_tree_image %}
+                    <div class="cr-image-frame">
+                        <img src="{{ page.career_tree_image.url }}" alt="Career Tree" class="cr-tree-img">
+                    </div>
+                    {% endif %}
+                </section>
+
+                <!-- ===== SECTION 3 - DESCRIPTION CARD ===== -->
+                <section class="cr-section-3 cr-fade-up">
+                    {% if page.description %}
+                    <div class="cr-desc-card cr-fade-up">
+                        <div class="cr-formatted-text">{{ page.description|linebreaksbr }}</div>
+                    </div>
+                    {% endif %}
+                </section>
+
+                <!-- ===== SECTION 4 - CAREER PATH IMAGE ===== -->
+                <section class="cr-section-4 cr-fade-up">
+                    {% if page.career_path_image %}
+                    <div class="cr-image-frame">
+                        <img src="{{ page.career_path_image.url }}" alt="Career Path" class="cr-tree-img">
+                    </div>
+                    {% endif %}
+                </section>
+
+                <!-- ===== SECTION 5 - CAREER SPECIALIZATIONS ===== -->
+                <section class="cr-section-5 cr-fade-up">
+                    {% if page.specializations_section_title %}
+                    <h2 class="cr-section-title">{{ page.specializations_section_title }}</h2>
+                    {% endif %}
+                    {% if page.specializations_section_subtitle %}
+                    <p class="cr-section-subtitle">{{ page.specializations_section_subtitle }}</p>
+                    {% endif %}
+                    {% if page.specialization_list %}
+                    <div class="cr-spec-list">
+                        {% for item in page.get_specialization_list_items %}
+                        <div class="cr-spec-item">{{ item }}</div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if page.closing_statement %}
+                    <p class="cr-closing-statement">{{ page.closing_statement|linebreaksbr }}</p>
+                    {% endif %}
+                </section>
+
+                <!-- ===== SECTION 6 - EXPERT REVIEWS CTA ===== -->
+                <section class="cr-section-6 cr-fade-up">
+                    {% if page.expert_reviews_title %}
+                    <h2 class="cr-section-title">{{ page.expert_reviews_title }}</h2>
+                    {% endif %}
+                    {% if page.expert_reviews_subtitle %}
+                    <p class="cr-cta-subtitle">{{ page.expert_reviews_subtitle|linebreaksbr }}</p>
+                    {% endif %}
+                    {% if page.expert_reviews_button_text %}
+                    <div class="cr-cta-button">
+                        <a href="{% if page.expert_reviews_button_link %}{{ page.expert_reviews_button_link }}{% else %}{% url 'expert_reviews' %}{% endif %}" class="cr-cta-btn">{{ page.expert_reviews_button_text }}</a>
+                    </div>
+                    {% endif %}
+                </section>
+
+            </div>
+
+            <div class="cr-scroll-rod-bottom"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Particles -->
+<div class="cr-particles"></div>
+
+{% else %}
+
+<!-- ===== NO CONTENT ===== -->
+<section class="cr-placeholder">
+    <div class="cr-placeholder-inner cr-fade-up">
+        <h2>CAREER</h2>
+        <p>Content is being prepared. Please check back soon.</p>
+    </div>
+</section>
+
+{% endif %}
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/career_page.css' %}">
+
+{% if page and page.background_image %}
+<style>
+    .cr-bg {
+        background-image: url('{{ page.background_image.url }}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+</style>
+{% endif %}
+
+<style>
+    .cr-page-body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/career_page.js' %}"></script>
+{% endblock %}

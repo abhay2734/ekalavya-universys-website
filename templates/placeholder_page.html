@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.label }} | Ekalavya Universys{% endblock %}
+
+{% block content %}
+<section class="placeholder-page-section">
+    <div class="container">
+        <div class="placeholder-page-card">
+            <p class="placeholder-eyebrow">Ekalavya Universys</p>
+            <h1>{{ page.label }}</h1>
+            <p class="placeholder-subtitle">{{ page.subtitle }}</p>
+            <div class="placeholder-divider"></div>
+            <p class="placeholder-message">{{ page.message }}</p>
+            <a class="placeholder-home-button" href="{% url 'home' %}">Return Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

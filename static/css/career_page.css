@@ -1,0 +1,666 @@
+/* ============================================
+    CAREER PAGE
+    Royal Scroll Experience matching HOME and CAPABILITY theme
+    ============================================ */
+
+/* --- Page Reset --- */
+.cr-page-body {
+    background: var(--color-bg-primary);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.cr-page-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* --- Background --- */
+.cr-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(180, 120, 50, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(180, 120, 50, 0.08) 0%, transparent 60%),
+        var(--color-bg-primary);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* --- Floating Particles --- */
+.cr-particles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.cr-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 169, 60, 0.8) 0%, rgba(230, 169, 60, 0) 70%);
+    animation: floatUp linear infinite;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.7;
+    }
+    80% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- Scroll Wrapper --- */
+.cr-scroll-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- Opened Scroll Experience --- */
+.cr-opened-scroll {
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+}
+
+/* Scroll outer parchment */
+.cr-scroll-outer {
+    position: relative;
+    background:
+        linear-gradient(135deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(225deg, #8B6914 0%, #C8A050 2%, transparent 2%),
+        linear-gradient(to bottom, #F4E4C1 0%, #E8D5A8 30%, #DCC89D 70%, #C8B080 100%);
+    border-radius: 12px;
+    padding: 50px 40px 40px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 80px rgba(80, 50, 20, 0.15);
+    overflow: hidden;
+}
+
+/* Parchment texture overlay */
+.cr-scroll-outer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(100, 70, 30, 0.02) 3px,
+            rgba(100, 70, 30, 0.02) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 4px,
+            rgba(100, 70, 30, 0.015) 4px,
+            rgba(100, 70, 30, 0.015) 8px
+        );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Top/Bottom rod decorations */
+.cr-scroll-rod-top,
+.cr-scroll-rod-bottom {
+    position: absolute;
+    left: -10px;
+    right: -10px;
+    height: 22px;
+    background: linear-gradient(180deg, #E6C87A 0%, #9B7B2A 40%, #C8A050 60%, #8B6914 100%);
+    border-radius: 6px;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    z-index: 2;
+}
+
+.cr-scroll-rod-top {
+    top: 0;
+}
+
+.cr-scroll-rod-bottom {
+    bottom: 0;
+}
+
+.cr-scroll-rod-cap-outer {
+    position: absolute;
+    top: -8px;
+    width: 30px;
+    height: 36px;
+    background: linear-gradient(180deg, #F0D88A 0%, #A08030 60%, #705010 100%);
+    border-radius: 5px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.cr-scroll-rod-cap-outer.left {
+    left: -6px;
+}
+
+.cr-scroll-rod-cap-outer.right {
+    right: -6px;
+}
+
+/* Content inside scroll */
+.cr-scroll-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+/* Glow effect on scroll */
+.cr-scroll-glow {
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(230, 169, 60, 0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+    animation: crGlowPulse 3s ease-in-out infinite;
+}
+
+@keyframes crGlowPulse {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* ============================================
+    SECTION 2 - CAREER TREE IMAGE
+    ============================================ */
+.cr-section-2 {
+    padding: 40px 24px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+    SECTION 4 - CAREER PATH IMAGE
+    ============================================ */
+.cr-section-4 {
+    padding: 40px 24px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+    SECTION 1 - LARGE TITLE
+    ============================================ */
+.cr-section-1 {
+    padding: 80px 24px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.cr-large-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    color: #000000;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(255, 180, 60, 0.5);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ============================================
+    IMAGE FRAME (reused for Sections 2 and 4)
+    ============================================ */
+.cr-image-frame {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 200, 100, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(230, 169, 60, 0.15);
+    background: #1a1210;
+}
+
+.cr-tree-img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    object-position: center center;
+}
+
+/* ============================================
+    SECTION 3 - DESCRIPTION CARD
+    Premium glass card with reveal animation and hover effect
+    ============================================ */
+.cr-section-3 {
+    padding: 40px 24px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.cr-desc-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    border-radius: 20px;
+    padding: 44px 48px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+}
+
+.cr-desc-card.cr-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cr-desc-card:hover {
+    border-color: rgba(255, 220, 130, 0.85);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 64px rgba(0, 0, 0, 0.6), 0 0 50px rgba(230, 169, 60, 0.18);
+}
+
+.cr-desc-card .cr-formatted-text {
+    font-family: 'Rokkitt', serif;
+    font-size: 1.4rem;
+    line-height: 1.9;
+    color: #000000;
+    text-align: left;
+}
+
+.cr-desc-card .cr-formatted-text p {
+    margin: 0 0 1em;
+}
+
+.cr-desc-card .cr-formatted-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+    SECTION 5 - CAREER SPECIALIZATIONS
+    ============================================ */
+.cr-section-5 {
+    padding: 40px 24px 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.cr-section-subtitle {
+    font-family: 'Rokkitt', serif;
+    font-size: clamp(1.4rem, 2.1vw, 1.5rem);
+    font-weight: 500;
+    color: maroon;
+    line-height: 1.7;
+    text-align: center;
+    margin: 0 auto 32px;
+    max-width: 800px;
+}
+
+.cr-spec-list {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.cr-spec-item {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000000;
+    padding: 16px 24px 16px 56px;
+    position: relative;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.cr-spec-item:hover {
+    background: rgba(230, 169, 60, 0.1);
+    border-color: rgba(255, 220, 130, 0.6);
+    transform: translateX(6px);
+}
+
+.cr-spec-item::before {
+    content: "▶";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: var(--color-accent-primary);
+    text-shadow: 0 0 8px rgba(230, 169, 60, 0.5);
+    line-height: 1;
+}
+
+.cr-closing-statement {
+    font-family: 'Rokkitt', serif;
+    font-size: 1.45rem;
+    line-height: 1.8;
+    color: #000000;
+    text-align: center;
+    margin: 32px auto 0;
+    max-width: 800px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(230, 169, 60, 0.2);
+}
+
+/* Override shared .cr-section-title for black text on career page */
+.cr-section-title{
+    color:#000000;
+    font-size:clamp(2rem,4vw,2.3rem);
+}
+
+/* ============================================
+    SECTION 6 - EXPERT REVIEWS CTA
+    ============================================ */
+.cr-section-6 {
+    padding: 40px 24px 80px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.5) 0%, rgba(240, 225, 200, 0.3) 100%);
+    border: 1px solid rgba(180, 130, 70, 0.3);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.cr-cta-subtitle {
+    font-family: 'Rokkitt', serif;
+    font-size: clamp(1.2rem, 2vw, 1.3rem);
+    font-weight: 500;
+    color: maroon;
+    line-height: 1.7;
+    max-width: 800px;
+    margin: 0 auto 32px;
+}
+
+.cr-cta-button {
+    margin-top: 8px;
+}
+
+.cr-cta-btn {
+    display: inline-block;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--color-bg-primary);
+    background: linear-gradient(135deg, #E6A93C, #FFD98E);
+    padding: 16px 48px;
+    border-radius: 50px;
+    text-decoration: none;
+    border: 2px solid transparent;
+    box-shadow: 0 8px 32px rgba(230, 169, 60, 0.35), 0 0 20px rgba(230, 169, 60, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.cr-cta-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(230, 169, 60, 0.5), 0 0 40px rgba(230, 169, 60, 0.25);
+    border-color: rgba(255, 220, 130, 0.8);
+}
+
+.cr-cta-btn:active {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(230, 169, 60, 0.4);
+}
+
+/* ============================================
+    PLACEHOLDER
+    ============================================ */
+.cr-placeholder {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-primary);
+    padding: 80px 24px;
+}
+
+.cr-placeholder-inner {
+    text-align: center;
+    max-width: 600px;
+    padding: 60px 40px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(230, 169, 60, 0.6);
+    box-shadow: 0 0 40px rgba(230, 169, 60, 0.15);
+}
+
+.cr-placeholder-inner h2 {
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: 2.2rem;
+    color: #FFD98E;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+    text-shadow: 0 0 20px rgba(255, 200, 80, 0.8);
+}
+
+.cr-placeholder-inner p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5rem;
+    color: #ffffff;
+    line-height: 1.7;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+    SCROLL REVEAL ANIMATIONS
+    ============================================ */
+.cr-fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cr-fade-up.cr-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cr-fade-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cr-fade-left.cr-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.cr-fade-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cr-fade-right.cr-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.cr-scale {
+    opacity: 0;
+    transform: scale(0.96);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cr-scale.cr-revealed {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ============================================
+    RESPONSIVE - LAPTOP
+    ============================================ */
+@media (max-width: 1200px) {
+    .cr-page-inner {
+        max-width: 900px;
+    }
+    .cr-desc-card {
+        padding: 40px 44px;
+    }
+}
+
+/* ============================================
+    RESPONSIVE - TABLET
+    ============================================ */
+@media (max-width: 992px) {
+    .cr-section-1 {
+        padding: 48px 20px 28px;
+    }
+    .cr-page-inner {
+        padding: 0 20px;
+    }
+    .cr-section-3,
+    .cr-section-5,
+    .cr-section-6 {
+        padding: 40px 20px 60px;
+    }
+    .cr-desc-card {
+        padding: 32px 36px;
+        border-radius: 18px;
+    }
+    .cr-spec-item {
+        padding: 14px 20px 14px 48px;
+        font-size: 1.1rem;
+    }
+    .cr-cta-btn {
+        padding: 14px 40px;
+        font-size: 1.05rem;
+    }
+}
+
+/* ============================================
+    RESPONSIVE - MOBILE
+    ============================================ */
+@media (max-width: 768px) {
+    .cr-section-1 {
+        padding: 32px 16px 24px;
+    }
+    .cr-page-inner {
+        padding: 0 16px;
+    }
+    .cr-section-3,
+    .cr-section-5,
+    .cr-section-6 {
+        padding: 32px 16px 48px;
+    }
+    .cr-desc-card {
+        padding: 28px 24px;
+        border-radius: 16px;
+    }
+    .cr-large-title {
+        font-size: 1.6rem;
+    }
+    .cr-section-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+    .cr-desc-card .cr-formatted-text {
+        font-size: 1.1rem;
+    }
+    .cr-spec-item {
+        font-size: 1.05rem;
+        padding: 14px 18px 14px 44px;
+    }
+    .cr-cta-btn {
+        padding: 14px 32px;
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+    RESPONSIVE - SMALL MOBILE
+    ============================================ */
+@media (max-width: 480px) {
+    .cr-section-1 {
+        padding: 24px 12px 20px;
+    }
+    .cr-page-inner {
+        padding: 0 12px;
+    }
+    .cr-section-3,
+    .cr-section-5,
+    .cr-section-6 {
+        padding: 24px 12px 40px;
+    }
+    .cr-desc-card {
+        padding: 24px 20px;
+        border-radius: 14px;
+    }
+    .cr-large-title {
+        font-size: 1.4rem;
+    }
+    .cr-spec-item {
+        font-size: 1rem;
+        padding: 12px 14px 12px 38px;
+    }
+    .cr-cta-btn {
+        padding: 12px 28px;
+        font-size: 0.95rem;
+    }
+    .cr-placeholder-inner {
+        padding: 36px 24px;
+    }
+    .cr-placeholder-inner h2 {
+        font-size: 1.8rem;
+    }
+    .cr-placeholder-inner p {
+        font-size: 1.3rem;
+    }
+}

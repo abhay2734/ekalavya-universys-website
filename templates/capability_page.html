@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{% if page.seo_title %}{{ page.seo_title }}{% else %}CAPABILITY | Ekalavya Universys{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+{% if page.seo_description %}
+<meta name="description" content="{{ page.seo_description }}">
+{% endif %}
+{% if page.seo_keywords %}
+<meta name="keywords" content="{{ page.seo_keywords }}">
+{% endif %}
+{% endblock %}
+
+{% block body_attrs %} class="cp-page-body"{% endblock %}
+
+{% block top_banner_attrs %} style="position:relative;"{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/capability_page.css' %}">
+
+{% if page and page.background_image %}
+<style>
+    .cp-bg {
+        background-image: url('{{ page.background_image.url }}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+</style>
+{% endif %}
+
+<style>
+    .cp-page-body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if page %}
+
+<div class="cp-bg"></div>
+
+<!-- MAIN CAPABILITY SCROLL EXPERIENCE -->
+<div class="cp-scroll-wrapper">
+
+    <!-- ===== OPENED SCROLL ===== -->
+    <div class="cp-opened-scroll">
+        <div class="cp-scroll-glow"></div>
+        <div class="cp-scroll-outer">
+            <div class="cp-scroll-rod-top"></div>
+            <div class="cp-scroll-rod-cap-outer left"></div>
+            <div class="cp-scroll-rod-cap-outer right"></div>
+
+            <div class="cp-scroll-content">
+
+                <!-- SECTION 1 - LARGE TITLE -->
+                <section class="cp-title-section cp-fade-up">
+                    <h1 class="cp-page-title">{{ page.page_title|default:"CAPABILITY" }}</h1>
+                    {% if page.page_subtitle %}
+                    <p class="cp-page-subtitle">{{ page.page_subtitle }}</p>
+                    {% endif %}
+                </section>
+
+                <!-- SECTION 2 - CAREER TREE IMAGE -->
+                <section class="cp-tree-section cp-fade-up">
+                    <div class="cp-tree-frame">
+                        {% if page.career_tree_image %}
+                        <img src="{{ page.career_tree_image.url }}" alt="Career Tree" class="cp-tree-img">
+                        {% else %}
+                        <div class="cp-tree-placeholder" aria-label="Career Tree placeholder">
+                            <div class="cp-tree-placeholder-icon">🌳</div>
+                            <p class="cp-tree-placeholder-text">Career Tree</p>
+                            <span class="cp-tree-placeholder-hint">Upload an image from the admin to display the career tree here.</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <!-- SECTION 3 - DESCRIPTION -->
+                <section class="cp-description-section cp-fade-up">
+                    <div class="cp-description-card">
+                        <div class="cp-description-body">{{ page.description|linebreaksbr }}</div>
+                    </div>
+                </section>
+
+                <!-- SECTION 4 - PYTHON ECOSYSTEM TREE IMAGE -->
+                <section class="cp-tree-section cp-fade-up">
+                    <div class="cp-tree-frame">
+                        {% if page.python_ecosystem_tree_image %}
+                        <img src="{{ page.python_ecosystem_tree_image.url }}" alt="Python Ecosystem" class="cp-tree-img">
+                        {% else %}
+                        <div class="cp-tree-placeholder" aria-label="Python Ecosystem placeholder">
+                            <div class="cp-tree-placeholder-icon">🐍</div>
+                            <p class="cp-tree-placeholder-text">Python Ecosystem</p>
+                            <span class="cp-tree-placeholder-hint">Upload an image from the admin to display the Python ecosystem here.</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <!-- SECTION 5 - PYTHON ECOSYSTEM -->
+                <section class="cp-ecosystem-section cp-fade-up">
+                    {% if page.python_ecosystem_section_title %}
+                    <h2 class="cp-ecosystem-title">{{ page.python_ecosystem_section_title }}</h2>
+                    {% endif %}
+                    {% if page.python_ecosystem_section_subtitle %}
+                    <p class="cp-ecosystem-subtitle">{{ page.python_ecosystem_section_subtitle }}</p>
+                    {% endif %}
+                    {% if page.python_ecosystem_highlight_line %}
+                    <p class="cp-ecosystem-highlight">{{ page.python_ecosystem_highlight_line }}</p>
+                    {% endif %}
+                    <div class="cp-ecosystem-points">
+                        {% if page.python_ecosystem_point_1 %}
+                        <div class="cp-ecosystem-point">{{ page.python_ecosystem_point_1|linebreaksbr }}</div>
+                        {% endif %}
+                        {% if page.python_ecosystem_point_2 %}
+                        <div class="cp-ecosystem-point">{{ page.python_ecosystem_point_2|linebreaksbr }}</div>
+                        {% endif %}
+                        {% if page.python_ecosystem_point_3 %}
+                        <div class="cp-ecosystem-point">{{ page.python_ecosystem_point_3|linebreaksbr }}</div>
+                        {% endif %}
+                    </div>
+                </section>
+
+                <!-- SECTION 6 - PYTHON WARMUP CTA -->
+                <section class="cp-warmup-section cp-fade-up">
+                    <div class="cp-warmup-card">
+                        {% if page.python_warmup_title %}
+                        <h2 class="cp-warmup-title">{{ page.python_warmup_title }}</h2>
+                        {% endif %}
+                        {% if page.python_warmup_subtitle %}
+                        <p class="cp-warmup-subtitle">{{ page.python_warmup_subtitle }}</p>
+                        {% endif %}
+                        {% if page.python_warmup_intro_paragraph %}
+                        <div class="cp-warmup-intro">{{ page.python_warmup_intro_paragraph|linebreaksbr }}</div>
+                        {% endif %}
+                        {% if page.python_warmup_checklist_items %}
+                        <ul class="cp-warmup-checklist">
+                            {% for item in page.python_warmup_checklist_items.splitlines %}
+                            {% if item.strip %}
+                            <li class="cp-warmup-checklist-item">{{ item.strip }}</li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <a href="{% if page.python_warmup_button_link %}{{ page.python_warmup_button_link }}{% else %}{% url 'free_training' %}{% endif %}" class="cp-warmup-cta-btn">{{ page.python_warmup_button_text|default:"Start Free Training" }}</a>
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="cp-scroll-rod-bottom"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Particles -->
+<div class="cp-particles"></div>
+
+{% else %}
+
+<!-- ===== NO CONTENT ===== -->
+<section class="cp-placeholder">
+    <div class="cp-placeholder-inner cp-fade-up">
+        <h2>CAPABILITY</h2>
+        <p>Content is being prepared. Please check back soon.</p>
+    </div>
+</section>
+
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/capability_page.js' %}"></script>
+{% endblock %}
