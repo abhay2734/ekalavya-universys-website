@@ -3,12 +3,19 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_protect
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.cache import cache
 from django.db.models import Prefetch
 from .models import ClarityPage, SmartIdeaPage, HomePage, CapabilityPage, CareerPage, FAQPage, FAQItem, FreeTrainingPage, FreeTrainingVideo, FreeEBook, ContactPage, ContactCard, ContactInformation, ContactFAQ, ContactFormSettings, ELMSSettings, ContactSubmission, ExpertReviewsPage, ExpertReview, ExpertReviewImage, EkalavyaLandingPage, EkalavyaLandingSection
 from .navigation import PLACEHOLDER_PAGES
 
 
+import logging
 import re
+import hashlib
+import time
+
+
+logger = logging.getLogger(__name__)
 
 
 def _extract_youtube_id(url):
@@ -248,6 +255,39 @@ def contact_us(request):
         if (data.get("company_website") or "").strip():
             return JsonResponse({"ok": True}, status=200)
 
+        # --- Abuse protection ---
+        client_ip = request.META.get("REMOTE_ADDR", "")
+        now = time.time()
+
+        # Flood protection: minimum 5 seconds between submissions
+        flood_key = f"contact_flood_{client_ip}"
+        last_post = cache.get(flood_key)
+        if last_post is not None and (now - last_post) < 5:
+            return JsonResponse({"ok": False, "errors": {"__all__": "Please wait before submitting again."}}, status=400)
+        cache.set(flood_key, now, 60)
+
+        # Rate limiting: max 10 requests per 60 seconds per IP
+        rate_key = f"contact_rate_{client_ip}"
+        request_count = cache.get(rate_key, 0)
+        if request_count >= 10:
+            return JsonResponse({"ok": False, "errors": {"__all__": "Too many requests. Please try again later."}}, status=400)
+        cache.set(rate_key, request_count + 1, 60)
+
+        # Duplicate submission protection: same form data within 60 seconds per IP
+        form_data = "|".join([
+            (data.get("full_name") or "").strip(),
+            (data.get("email") or "").strip(),
+            (data.get("phone") or "").strip(),
+            (data.get("subject") or "").strip(),
+            (data.get("message") or "").strip(),
+        ])
+        form_hash = hashlib.sha256(form_data.encode()).hexdigest()
+        dup_key = f"contact_dup_{client_ip}_{form_hash}"
+        if cache.get(dup_key):
+            return JsonResponse({"ok": False, "errors": {"__all__": "This form was already submitted recently."}}, status=400)
+        cache.set(dup_key, True, 60)
+        # --- End abuse protection ---
+
         errors = ContactSubmissionForm.validate(data)
 
         if errors:
@@ -273,10 +313,9 @@ def contact_us(request):
                     ),
                     from_email=getattr(settings, "DEFAULT_FROM_EMAIL", "noreply@ekalavyauniversys.com"),
                     recipient_list=[form_settings.admin_email],
-                    fail_silently=True,
                 )
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.error("Failed to send contact email: %s", exc)
 
         return JsonResponse({"ok": True}, status=200)
 
