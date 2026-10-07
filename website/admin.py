@@ -1,5 +1,33 @@
 from django.contrib import admin
-from .models import ClarityPage, FooterSettings, SmartIdeaPage, HomePage, CapabilityPage, CareerPage, FAQPage, FAQItem, FreeTrainingPage, FreeTrainingVideo, FreeEBook, ContactPage, ContactCard, ContactInformation, ContactFAQ, ContactFormSettings, ELMSSettings, ContactSubmission, ExpertReviewsPage, ExpertReview, ExpertReviewImage, EkalavyaLandingPage, EkalavyaLandingSection
+from .models import (
+    ClarityPage,
+    FooterSettings,
+    SmartIdeaPage,
+    HomePage,
+    CapabilityPage,
+    CareerPage,
+    FAQPage,
+    FAQItem,
+    FreeTrainingPage,
+    FreeTrainingVideo,
+    FreeEBook,
+    ContactPage,
+    ContactCard,
+    ContactInformation,
+    ContactFAQ,
+    ContactFormSettings,
+    ELMSSettings,
+    ContactSubmission,
+    ExpertReviewsPage,
+    ExpertReview,
+    ExpertReviewImage,
+    EkalavyaLandingPage,
+    EkalavyaLandingSection,
+    EkalavyaLandingSectionVideo,
+    DynamicInformationSettings,
+    NoticeBoard,
+    EventActivity,
+)
 
 @admin.register(HomePage)
 class HomePageAdmin(admin.ModelAdmin):
@@ -574,17 +602,106 @@ class EkalavyaLandingPageAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+class EkalavyaLandingSectionVideoInline(admin.TabularInline):
+    model = EkalavyaLandingSectionVideo
+    extra = 1
+    fields = [
+        "display_order",
+        "thumbnail",
+        "video_type",
+        "youtube_url",
+        "uploaded_video",
+        "active",
+    ]
+    ordering = ["display_order", "id"]
 
 @admin.register(EkalavyaLandingSection)
 class EkalavyaLandingSectionAdmin(admin.ModelAdmin):
-    list_display = ["display_order", "video_type", "active", "updated_at"]
+    inlines = [EkalavyaLandingSectionVideoInline]
+    list_display = ["display_order", "active", "updated_at"]
     ordering = ["display_order", "id"]
     fieldsets = (
         ("Section Content", {
-            "fields": ("image", "thumbnail", "video_type", "youtube_url", "uploaded_video"),
+            "fields": ("image",),
         }),
         ("Display", {
             "fields": ("display_order", "active"),
         }),
     )
 
+@admin.register(DynamicInformationSettings)
+class DynamicInformationSettingsAdmin(admin.ModelAdmin):
+    list_display = ["main_heading", "active", "items_to_show", "updated_at"]
+
+    fieldsets = (
+        ("Main Information Zone", {
+            "fields": ("main_heading", "main_image", "active", "items_to_show"),
+            "description": "Controls the main Dynamic Information Zone displayed above the conventional footer."
+        }),
+
+        ("Notice Board", {
+            "fields": (
+                "notice_section_heading",
+                "notice_section_subtitle",
+                "notice_view_all_text",
+                "notice_view_all_url",
+            ),
+            "description": "Controls the Notice Board section."
+        }),
+
+        ("Events & Activities", {
+            "fields": (
+                "event_section_heading",
+                "event_section_subtitle",
+                "event_view_all_text",
+                "event_view_all_url",
+            ),
+            "description": "Controls the Events & Activities section."
+        }),
+    )
+
+    readonly_fields = ["created_at", "updated_at"]
+
+    def has_add_permission(self, request):
+        if self.model.objects.exists():
+            return False
+        return super().has_add_permission(request)
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(NoticeBoard)
+class NoticeBoardAdmin(admin.ModelAdmin):
+    list_display = [
+        "display_order",
+        "admin_label",
+        "title",
+        "active",
+        "created_at",
+        "updated_at",
+    ]
+    list_display_links = ["admin_label"]
+    list_filter = ["active"]
+    search_fields = ["admin_label", "title", "description"]
+    list_editable = ["display_order", "active"]
+    ordering = ["display_order", "-created_at", "id"]   
+
+
+@admin.register(EventActivity)
+class EventActivityAdmin(admin.ModelAdmin):
+    list_display = [
+        "display_order",
+        "admin_label",
+        "title",
+        "event_type",
+        "event_date",
+        "active",
+        "created_at",
+        "updated_at",
+    ]
+    list_display_links = ["admin_label"]
+    list_filter = ["active", "event_type"]
+    search_fields = ["admin_label", "title", "description", "event_type"]
+    list_editable = ["display_order", "active"]
+    ordering = ["-event_date", "display_order", "-created_at", "id"]

@@ -31,8 +31,8 @@ NAVIGATION_ITEMS = [
         "url_name": "free_training",
     },
     {
-        "label": "AI Expert Reviews",
-        "supporting_text": "ChatGPT • OpenAI",
+        "label": "ChatGPT",
+        "supporting_text": "AI EXPERT REVIEWS",
         "url_name": "expert_reviews",
     },
     {

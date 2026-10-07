@@ -18,23 +18,27 @@
 {% if landing_sections %}
 <div class="landing-sections">
 {% for item in landing_sections %}
+
+{% if item.section.image %}
 <section class="hero-wrapper">
     <div class="hero-container">
         <img src="{{ item.section.image.url }}" class="hero-image" alt="Landing Section">
     </div>
 </section>
+{% endif %}
 
-{% if item.section.thumbnail %}
+{% for video in item.section.videos.all %}
 <section class="hero-wrapper">
     <div class="hero-container">
-        <img src="{{ item.section.thumbnail.url }}" class="hero-image" alt="Section Thumbnail"
+        <img src="{{ video.thumbnail.url }}" class="hero-image" alt="Section Video Thumbnail"
              style="cursor:pointer;"
-             data-video-type="{{ item.section.video_type }}"
-             data-youtube-url="{{ item.section.youtube_url|default:'' }}"
-             data-upload-url="{% if item.section.uploaded_video %}{{ item.section.uploaded_video.url }}{% endif %}">
+             data-video-type="{{ video.video_type }}"
+             data-youtube-url="{{ video.youtube_url|default:'' }}"
+             data-upload-url="{% if video.uploaded_video %}{{ video.uploaded_video.url }}{% endif %}">
     </div>
 </section>
-{% endif %}
+{% endfor %}
+
 {% endfor %}
 </div>
 {% endif %}

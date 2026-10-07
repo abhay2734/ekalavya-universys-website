@@ -2135,46 +2135,19 @@ class EkalavyaLandingPage(models.Model):
         obj, _ = cls.objects.get_or_create(pk=1)
         return obj
 
-
 class EkalavyaLandingSection(models.Model):
     """Repeatable landing page section for the Ekalavya Universys landing page."""
 
-    VIDEO_TYPE_CHOICES = [
-        ("youtube", "YouTube"),
-        ("upload", "Uploaded Video"),
-    ]
-
     image = models.ImageField(
         upload_to="ekalavya/landing/",
-        help_text="Section image"
-    )
-
-    thumbnail = models.ImageField(
-        upload_to="ekalavya/landing/thumbnails/",
-        help_text="Section thumbnail image"
-    )
-
-    video_type = models.CharField(
-        max_length=20,
-        choices=VIDEO_TYPE_CHOICES,
-        default="youtube"
-    )
-
-    youtube_url = models.URLField(
-        blank=True,
-        help_text="YouTube video URL"
-    )
-
-    uploaded_video = models.FileField(
-        upload_to="ekalavya/landing/videos/",
         blank=True,
         null=True,
-        help_text="Uploaded video file"
+        help_text="Optional section image",
     )
 
     display_order = models.PositiveIntegerField(
         default=1,
-        help_text="Order in which this section appears (lower numbers first)"
+        help_text="Order in which this section appears (lower numbers first)",
     )
 
     active = models.BooleanField(default=True)
@@ -2188,17 +2161,339 @@ class EkalavyaLandingSection(models.Model):
         ordering = ["display_order", "id"]
 
     def __str__(self):
-        return f"Landing Section {self.pk or ''} - {self.get_video_type_display()}"
+        return f"Landing Section {self.pk or ''}"
+
+class EkalavyaLandingSectionVideo(models.Model):
+    """
+    Individual video + thumbnail pair for an Ekalavya landing page section.
+
+    A section can contain multiple video items.
+    Each video item must have a thumbnail and exactly one video source.
+    """
+
+    VIDEO_TYPE_CHOICES = [
+        ("youtube", "YouTube"),
+        ("upload", "Uploaded Video"),
+    ]
+
+    section = models.ForeignKey(
+        EkalavyaLandingSection,
+        on_delete=models.CASCADE,
+        related_name="videos",
+        help_text="Landing page section this video belongs to",
+    )
+
+    thumbnail = models.ImageField(
+        upload_to="ekalavya/landing/thumbnails/",
+        help_text="Thumbnail image for this video",
+    )
+
+    video_type = models.CharField(
+        max_length=20,
+        choices=VIDEO_TYPE_CHOICES,
+        default="youtube",
+    )
+
+    youtube_url = models.URLField(
+        blank=True,
+        help_text="YouTube video URL",
+    )
+
+    uploaded_video = models.FileField(
+        upload_to="ekalavya/landing/videos/",
+        blank=True,
+        null=True,
+        help_text="Uploaded video file",
+    )
+
+    display_order = models.PositiveIntegerField(
+        default=1,
+        help_text="Order in which this video appears within the section",
+    )
+
+    active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Landing Section Video"
+        verbose_name_plural = "Landing Section Videos"
+        ordering = ["display_order", "id"]
+
+    def __str__(self):
+        return f"{self.section} - Video {self.pk or ''}"
 
     def clean(self):
-        super().clean()
+        from django.core.exceptions import ValidationError
+
         if self.video_type == "youtube":
             if not self.youtube_url:
-                raise ValidationError({"youtube_url": "YouTube URL is required when Video Type is YouTube."})
+                raise ValidationError(
+                    {
+                        "youtube_url": (
+                            "YouTube URL is required when Video Type is YouTube."
+                        )
+                    }
+                )
+
             if self.uploaded_video:
-                raise ValidationError({"uploaded_video": "Uploaded Video must be empty when Video Type is YouTube."})
+                raise ValidationError(
+                    {
+                        "uploaded_video": (
+                            "Uploaded Video must be empty when Video Type is YouTube."
+                        )
+                    }
+                )
+
         elif self.video_type == "upload":
             if not self.uploaded_video:
-                raise ValidationError({"uploaded_video": "Uploaded Video is required when Video Type is Uploaded Video."})
+                raise ValidationError(
+                    {
+                        "uploaded_video": (
+                            "Uploaded Video is required when Video Type is Uploaded Video."
+                        )
+                    }
+                )
+
             if self.youtube_url:
-                raise ValidationError({"youtube_url": "YouTube URL must be empty when Video Type is Uploaded Video."})
+                raise ValidationError(
+                    {
+                        "youtube_url": (
+                            "YouTube URL must be empty when Video Type is Uploaded Video."
+                        )
+                    }
+                )            
+
+# ---------------------------------------------------------------------------
+# Dynamic Information Zone
+# ---------------------------------------------------------------------------
+
+class DynamicInformationSettings(models.Model):
+    """Singleton settings for the dynamic information zone above the footer."""
+
+    main_heading = models.CharField(
+        max_length=200,
+        default="WHAT'S HAPPENING AT EKALAVYA",
+        help_text="Main heading displayed above the Notice Board and Events & Activities sections.",
+    )
+    main_image = models.ImageField(
+        upload_to="footer/dynamic_information/",
+        blank=True,
+        null=True,
+        help_text="Main image displayed directly below the Dynamic Information Zone heading.",
+    )
+
+    notice_section_heading = models.CharField(
+        max_length=200,
+        default="NOTICE BOARD",
+        help_text="Heading displayed above the Notice Board items.",
+    )
+
+    notice_section_subtitle = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="Optional subtitle displayed below the Notice Board heading.",
+    )
+
+    notice_view_all_text = models.CharField(
+        max_length=100,
+        default="VIEW ALL →",
+        help_text="Text displayed on the Notice Board View All button.",
+    )
+
+    notice_view_all_url = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="URL opened by the Notice Board View All button.",
+    )
+
+    event_section_heading = models.CharField(
+        max_length=200,
+        default="EVENTS & ACTIVITIES",
+        help_text="Heading displayed above the Events & Activities items.",
+    )
+
+    event_section_subtitle = models.CharField(
+        max_length=300,
+        blank=True,
+        help_text="Optional subtitle displayed below the Events & Activities heading.",
+    )
+
+    event_view_all_text = models.CharField(
+        max_length=100,
+        default="VIEW ALL →",
+        help_text="Text displayed on the Events & Activities View All button.",
+    )
+
+    event_view_all_url = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="URL opened by the Events & Activities View All button.",
+    )
+
+    items_to_show = models.PositiveIntegerField(
+        default=3,
+        help_text="Maximum number of active Notice Board and Events & Activities items shown in the compact footer zone.",
+    )
+
+    active = models.BooleanField(
+        default=True,
+        help_text="When disabled, the entire Dynamic Information Zone is hidden.",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Dynamic Information Settings"
+        verbose_name_plural = "Dynamic Information Settings"
+
+    def __str__(self):
+        return "Dynamic Information Settings"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    @classmethod
+    def load(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
+
+
+class NoticeBoard(models.Model):
+    """Individual notice displayed in the dynamic Notice Board section."""
+
+    admin_label = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Internal admin label used to identify this notice. Not displayed on the website.",
+    )
+    
+    title = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Optional notice title.",
+    )
+
+    description = models.TextField(
+        blank=True,
+        help_text="Notice description or supporting information.",
+    )
+    
+    image = models.ImageField(
+        upload_to="footer/notices/",
+        blank=True,
+        null=True,
+        help_text="Optional image displayed with this notice.",
+    )
+
+    button_text = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Optional button text. Leave empty if the notice should not have a button.",
+    )
+
+    button_url = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Optional button URL. Supports internal or external URLs.",
+    )
+
+    display_order = models.PositiveIntegerField(
+        default=0,
+        help_text="Order in which notices appear. Lower numbers appear first.",
+    )
+
+    active = models.BooleanField(
+        default=True,
+        help_text="Only active notices are displayed on the frontend.",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Notice Board Item"
+        verbose_name_plural = "Notice Board Items"
+        ordering = ["display_order", "-created_at", "id"]
+
+    def __str__(self):
+        return self.title
+
+
+class EventActivity(models.Model):
+    """Individual event or activity displayed in the dynamic events section."""
+
+    admin_label = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Internal admin label used to identify this event or activity. Not displayed on the website.",
+    )
+    
+    title = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Optional event or activity title.",
+    )
+
+    event_type = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Optional event type, for example Workshop, Seminar, Training, or Student Activity.",
+    )
+
+    event_date = models.DateField(
+        blank=True,
+        null=True,
+        help_text="Optional event or activity date.",
+    )
+
+    image = models.ImageField(
+        upload_to="footer/events/",
+        blank=True,
+        null=True,
+        help_text="Optional event or activity image.",
+    )
+
+    description = models.TextField(
+        blank=True,
+        help_text="Event or activity description.",
+    )
+
+    button_text = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="Optional button text. Leave empty if the event should not have a button.",
+    )
+
+    button_url = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Optional button URL. Supports internal or external URLs.",
+    )
+
+    display_order = models.PositiveIntegerField(
+        default=0,
+        help_text="Manual display priority. Lower numbers appear first when dates are equal.",
+    )
+
+    active = models.BooleanField(
+        default=True,
+        help_text="Only active events and activities are displayed on the frontend.",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Event & Activity"
+        verbose_name_plural = "Events & Activities"
+        ordering = ["-event_date", "display_order", "-created_at", "id"]
+
+    def __str__(self):
+        return self.title   

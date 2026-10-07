@@ -5,7 +5,31 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.core.cache import cache
 from django.db.models import Prefetch
-from .models import ClarityPage, SmartIdeaPage, HomePage, CapabilityPage, CareerPage, FAQPage, FAQItem, FreeTrainingPage, FreeTrainingVideo, FreeEBook, ContactPage, ContactCard, ContactInformation, ContactFAQ, ContactFormSettings, ELMSSettings, ContactSubmission, ExpertReviewsPage, ExpertReview, ExpertReviewImage, EkalavyaLandingPage, EkalavyaLandingSection
+from .models import (
+    ClarityPage,
+    SmartIdeaPage,
+    HomePage,
+    CapabilityPage,
+    CareerPage,
+    FAQPage,
+    FAQItem,
+    FreeTrainingPage,
+    FreeTrainingVideo,
+    FreeEBook,
+    ContactPage,
+    ContactCard,
+    ContactInformation,
+    ContactFAQ,
+    ContactFormSettings,
+    ELMSSettings,
+    ContactSubmission,
+    ExpertReviewsPage,
+    ExpertReview,
+    ExpertReviewImage,
+    EkalavyaLandingPage,
+    EkalavyaLandingSection,
+    EkalavyaLandingSectionVideo,
+)
 from .navigation import PLACEHOLDER_PAGES
 
 
@@ -36,13 +60,23 @@ def landing_page(request):
     landing_page_obj = EkalavyaLandingPage.objects.filter(active=True).first()
 
     sections = []
-    for s in EkalavyaLandingSection.objects.filter(active=True).order_by("display_order", "id"):
-        embed_url = None
-        if s.video_type == "youtube" and s.youtube_url:
-            vid_id = _extract_youtube_id(s.youtube_url)
-            if vid_id:
-                embed_url = f"https://www.youtube.com/embed/{vid_id}"
-        sections.append({"section": s, "youtube_embed_url": embed_url})
+
+    landing_sections = (
+        EkalavyaLandingSection.objects
+        .filter(active=True)
+        .prefetch_related(
+            Prefetch(
+                "videos",
+                queryset=EkalavyaLandingSectionVideo.objects.filter(
+                    active=True
+                ).order_by("display_order", "id"),
+            )
+        )
+        .order_by("display_order", "id")
+    )
+
+    for s in landing_sections:
+        sections.append({"section": s})
 
     context = {
         "landing_page": landing_page_obj,

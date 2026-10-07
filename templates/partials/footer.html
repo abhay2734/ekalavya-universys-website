@@ -1,3 +1,167 @@
+{% if dynamic_information_settings and dynamic_information_settings.active %}
+<section class="dynamic-information-zone">
+    <div class="container">
+
+        <div class="dynamic-information-header">
+            <h2>{{ dynamic_information_settings.main_heading }}</h2>
+        </div>
+
+        {% if dynamic_information_settings.main_image %}
+            <div class="dynamic-information-main-image">
+                <img
+                    src="{{ dynamic_information_settings.main_image.url }}"
+                    alt="{{ dynamic_information_settings.main_heading }}"
+                    loading="lazy">
+            </div>
+        {% endif %}
+
+        <div class="dynamic-information-grid">
+
+            <!-- Notice Board -->
+            <div class="dynamic-information-section notice-board-section">
+                <div class="dynamic-information-section-header">
+                    <div>
+                        <p class="dynamic-information-kicker">NOTICE BOARD</p>
+                    </div>
+
+                    {% if notice_board_items|length > dynamic_information_settings.items_to_show %}
+
+                        <button
+                            type="button"
+                            class="dynamic-information-view-all"
+                            data-toggle-items="notice-board"
+                            data-visible-count="{{ dynamic_information_settings.items_to_show }}"
+                            aria-expanded="false">
+
+                            {{ dynamic_information_settings.notice_view_all_text|default:"VIEW ALL →" }}
+
+                        </button>
+
+                        {% endif %}
+                </div>
+
+                <div class="dynamic-information-items">
+
+                    {% for notice in notice_board_items %}
+                    <article class="dynamic-information-item">
+                        {% if notice.image %}
+                        <div class="dynamic-information-item-image">
+                            <img
+                                src="{{ notice.image.url }}"
+                                alt="{{ notice.title }}"
+                                loading="lazy">
+                        </div>
+                        {% endif %}
+
+                        {% if notice.title or notice.description or notice.button_text and notice.button_url %}
+                            <div class="dynamic-information-item-content">
+                                {% if notice.title %}
+                                    <h4>{{ notice.title }}</h4>
+                                {% endif %}
+
+                                {% if notice.description %}
+                                    <p>{{ notice.description }}</p>
+                                {% endif %}
+
+                                {% if notice.button_text and notice.button_url %}
+                                    <a
+                                        class="dynamic-information-item-button"
+                                        href="{{ notice.button_url }}">
+                                        {{ notice.button_text }}
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </article>
+                    {% empty %}
+                    <p class="dynamic-information-empty">
+                        No notices available at the moment.
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <!-- Events & Activities -->
+            <div class="dynamic-information-section events-activities-section">
+                <div class="dynamic-information-section-header">
+                    <div>
+                        <p class="dynamic-information-kicker">EVENTS &amp; ACTIVITIES</p>
+                    </div>
+
+                    {% if event_activity_items|length > dynamic_information_settings.items_to_show %}
+                    <button
+                        type="button"
+                        class="dynamic-information-view-all"
+                        data-toggle-items="events-activities"
+                        data-visible-count="{{ dynamic_information_settings.items_to_show }}"
+                        aria-expanded="false">
+
+                        {{ dynamic_information_settings.event_view_all_text|default:"VIEW ALL →" }}
+
+                    </button>
+                    {% endif %}
+                </div>
+
+                <div class="dynamic-information-items">
+                    {% for event in event_activity_items %}
+                    <article class="dynamic-information-item">
+
+                        {% if event.image %}
+                        <div class="dynamic-information-item-image">
+                            <img
+                                src="{{ event.image.url }}"
+                                alt="{{ event.title }}"
+                                loading="lazy">
+                        </div>
+                        {% endif %}
+
+                        {% if event.event_type or event.title or event.event_date or event.description or event.button_text and event.button_url %}
+                            <div class="dynamic-information-item-content">
+
+                                {% if event.event_type %}
+                                <span class="dynamic-information-item-type">
+                                    {{ event.event_type }}
+                                </span>
+                                {% endif %}
+
+                                {% if event.title %}
+                                <h4>{{ event.title }}</h4>
+                                {% endif %}
+
+                                {% if event.event_date %}
+                                <time datetime="{{ event.event_date|date:'Y-m-d' }}">
+                                    {{ event.event_date|date:"d M Y" }}
+                                </time>
+                                {% endif %}
+
+                                {% if event.description %}
+                                <p>{{ event.description }}</p>
+                                {% endif %}
+
+                                {% if event.button_text and event.button_url %}
+                                <a
+                                    class="dynamic-information-item-button"
+                                    href="{{ event.button_url }}">
+                                    {{ event.button_text }}
+                                </a>
+                                {% endif %}
+
+                            </div>
+                            {% endif %}
+                    </article>
+                    {% empty %}
+                    <p class="dynamic-information-empty">
+                        No events or activities available at the moment.
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endif %}
 <footer class="site-footer">
     <div class="footer-top">
         <div class="container">
@@ -68,9 +232,9 @@
                     {% if footer_settings and footer_settings.elms_url %}
                     <div class="footer-elms-card">
                         <p class="footer-elms-eyebrow">Student Login Portal</p>
-                        <h3>Access the Ekalavya Learning Management System</h3>
+                        <h3>You May Select Your Course</h3>
                         <a class="footer-elms-button" href="{{ footer_settings.elms_url }}" target="_blank" rel="noopener noreferrer">
-                            Go To ELMS
+                            ENROLL NOW
                         </a>
                     </div>
                     {% endif %}
@@ -87,3 +251,75 @@
     </div>
     {% endif %}
 </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const toggleButtons = document.querySelectorAll(
+        ".dynamic-information-view-all[data-toggle-items]"
+    );
+
+    toggleButtons.forEach(function (button) {
+
+        const section = button.closest(".dynamic-information-section");
+
+        if (!section) {
+            return;
+        }
+
+        const items = section.querySelectorAll(
+            ".dynamic-information-item"
+        );
+
+        const visibleCount = parseInt(
+            button.dataset.visibleCount,
+            10
+        );
+
+        if (
+            Number.isNaN(visibleCount) ||
+            items.length <= visibleCount
+        ) {
+            return;
+        }
+
+        function updateItems(expanded) {
+
+            items.forEach(function (item, index) {
+
+                if (index >= visibleCount) {
+                    item.hidden = !expanded;
+                }
+
+            });
+
+            button.setAttribute(
+                "aria-expanded",
+                expanded ? "true" : "false"
+            );
+
+            if (expanded) {
+                button.textContent = "SHOW LESS ↑";
+            } else {
+                button.textContent =
+                    button.dataset.originalText || "VIEW ALL →";
+            }
+        }
+
+        button.dataset.originalText =
+            button.textContent.trim();
+
+        updateItems(false);
+
+        button.addEventListener("click", function () {
+
+            const expanded =
+                button.getAttribute("aria-expanded") === "true";
+
+            updateItems(!expanded);
+
+        });
+
+    });
+
+});
+</script>
