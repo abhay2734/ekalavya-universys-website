@@ -1374,6 +1374,21 @@ class FreeTrainingPage(models.Model):
         blank=True,
         help_text="Page subtitle displayed below the title"
     )
+    intro_title = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Optional title displayed below the gallery images."
+    )
+
+    intro_description = models.TextField(
+        blank=True,
+        help_text="Optional description displayed below the introduction title."
+    )
+
+    show_serial_numbers = models.BooleanField(
+        default=True,
+        help_text="Display an automatically generated serial-number column at the beginning of the table."
+    )
 
     # Free Training Section
     free_training_section_title = models.CharField(
@@ -1446,133 +1461,164 @@ class FreeTrainingPage(models.Model):
         return obj
 
 
-class FreeTrainingVideo(models.Model):
-    """Individual free training video linked to the FreeTrainingPage singleton"""
+class FreeTrainingImage(models.Model):
+    """An optional, ordered image displayed on the Free Training page."""
 
-    VIDEO_TYPE_CHOICES = [
-        ("youtube", "YouTube Link"),
-        ("upload", "Upload Video"),
+    page = models.ForeignKey(
+        FreeTrainingPage,
+        on_delete=models.CASCADE,
+        related_name="gallery_images",
+    )
+    image = models.ImageField(
+        upload_to="free_training/gallery/",
+    )
+    caption = models.CharField(max_length=200, blank=True)
+    display_order = models.PositiveIntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+        verbose_name = "Free Training Image"
+        verbose_name_plural = "Free Training Images"
+
+    def __str__(self):
+        return self.caption or f"Free Training Image {self.pk or ''}"
+
+
+class FreeTrainingAfterTableImage(models.Model):
+    """Optional images displayed after the Free Training table."""
+
+    page = models.ForeignKey(
+        FreeTrainingPage,
+        on_delete=models.CASCADE,
+        related_name="after_table_images",
+    )
+    image = models.ImageField(
+        upload_to="free_training/after_table/",
+    )
+    caption = models.CharField(max_length=200, blank=True)
+    display_order = models.PositiveIntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+        verbose_name = "Free Training Image After Table"
+        verbose_name_plural = "Free Training Images After Table"
+
+    def __str__(self):
+        return self.caption or f"After-table image {self.pk or ''}"
+
+class FreeTrainingTableColumn(models.Model):
+    """A configurable column in the Free Training table."""
+
+    page = models.ForeignKey(
+        FreeTrainingPage,
+        on_delete=models.CASCADE,
+        related_name="table_columns",
+    )
+    heading = models.CharField(max_length=200, blank=True)
+    display_order = models.PositiveIntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+        verbose_name = "Free Training Table Column"
+        verbose_name_plural = "Free Training Table Columns"
+
+    def __str__(self):
+        return self.heading or f"Column {self.pk or ''}"
+
+
+class FreeTrainingTableRow(models.Model):
+    """A configurable row in the Free Training table."""
+
+    page = models.ForeignKey(
+        FreeTrainingPage,
+        on_delete=models.CASCADE,
+        related_name="table_rows",
+    )
+    display_order = models.PositiveIntegerField(default=0)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["display_order", "id"]
+        verbose_name = "Free Training Table Row"
+        verbose_name_plural = "Free Training Table Rows"
+
+    def __str__(self):
+        return f"Table Row {self.display_order or self.pk or ''}"
+
+
+class FreeTrainingTableCell(models.Model):
+    """A cell that displays either text or a clickable button."""
+
+    CELL_TYPE_CHOICES = [
+        ("text", "Plain Text"),
+        ("button", "Clickable Button"),
     ]
 
-    page = models.ForeignKey(
-        FreeTrainingPage,
+    row = models.ForeignKey(
+        FreeTrainingTableRow,
         on_delete=models.CASCADE,
-        related_name="free_training_videos",
-        help_text="The Free Training page this video belongs to"
+        related_name="cells",
     )
-
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Order in which this video appears (lower numbers first)"
+    column = models.ForeignKey(
+        FreeTrainingTableColumn,
+        on_delete=models.CASCADE,
+        related_name="cells",
     )
-
-    featured = models.BooleanField(
-        default=False,
-        help_text="Mark this video as featured"
-    )
-
-    thumbnail = models.ImageField(
-        upload_to="free_training/video_thumbnails/",
-        help_text="Video thumbnail image"
-    )
-
-    thumbnail_image = models.ImageField(
-        upload_to="free_training/video_thumbnails/",
-        blank=True,
-        null=True,
-        help_text="Alternate video thumbnail image"
-    )
-
-    title = models.CharField(
-        max_length=200,
-        help_text="Video title"
-    )
-
-    video_type = models.CharField(
+    cell_type = models.CharField(
         max_length=10,
-        choices=VIDEO_TYPE_CHOICES,
-        default="youtube"
+        choices=CELL_TYPE_CHOICES,
+        default="text",
     )
-
-    youtube_url = models.URLField(
+    text = models.TextField(
         blank=True,
-        help_text="YouTube video URL (e.g., https://www.youtube.com/watch?v=...)"
+        help_text="Text to display, or button label when the cell type is Clickable Button.",
     )
-
-    uploaded_video = models.FileField(
-        upload_to="free_training/videos/",
+    button_url = models.URLField(
+        max_length=1000,
         blank=True,
-        null=True,
-        help_text="Upload video file if not using YouTube"
+        help_text="Required for a Clickable Button cell.",
     )
-
-    active = models.BooleanField(
-        default=True,
-        help_text="Only active videos appear on the frontend"
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Free Training Video"
-        verbose_name_plural = "Free Training Videos"
-        ordering = ["display_order", "id"]
+        ordering = ["column__display_order", "id"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["row", "column"],
+                name="unique_free_training_cell_per_column",
+            ),
+        ]
+        verbose_name = "Free Training Table Cell"
+        verbose_name_plural = "Free Training Table Cells"
 
     def __str__(self):
-        return self.title
+        return f"{self.row} - {self.column}"
 
+    def clean(self):
+        from django.core.exceptions import ValidationError
 
-class FreeEBook(models.Model):
-    """Individual free eBook linked to the FreeTrainingPage singleton"""
+        errors = {}
 
-    page = models.ForeignKey(
-        FreeTrainingPage,
-        on_delete=models.CASCADE,
-        related_name="free_ebooks",
-        help_text="The Free Training page this eBook belongs to"
-    )
+        if self.row_id and self.column_id:
+            if self.row.page_id != self.column.page_id:
+                errors["column"] = (
+                    "The selected column must belong to the same page as the row."
+                )
 
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Order in which this eBook appears (lower numbers first)"
-    )
+        if self.cell_type == "button":
+            if not self.text.strip():
+                errors["text"] = "Button text is required for a button cell."
+            if not self.button_url.strip():
+                errors["button_url"] = "A URL is required for a button cell."
+        elif self.cell_type == "text" and self.button_url:
+            errors["button_url"] = (
+                "Leave the button URL empty when the cell type is Plain Text."
+            )
 
-    featured = models.BooleanField(
-        default=False,
-        help_text="Mark this eBook as featured"
-    )
-
-    cover = models.ImageField(
-        upload_to="free_training/ebook_covers/",
-        help_text="eBook cover image"
-    )
-
-    title = models.CharField(
-        max_length=200,
-        help_text="eBook title"
-    )
-
-    file = models.FileField(
-        upload_to="free_training/ebooks/",
-        help_text="eBook file upload"
-    )
-
-    active = models.BooleanField(
-        default=True,
-        help_text="Only active eBooks appear on the frontend"
-    )
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = "Free eBook"
-        verbose_name_plural = "Free eBooks"
-        ordering = ["display_order", "id"]
-
-    def __str__(self):
-        return self.title
+        if errors:
+            raise ValidationError(errors)
 
 
 class ContactPage(models.Model):
@@ -1934,15 +1980,24 @@ class ExpertReviewsPage(models.Model):
         help_text="Page title"
     )
 
+    # Retained for existing database data.
+    # This field will no longer be displayed in Admin or on the frontend.
     subtitle = models.CharField(
         max_length=200,
         blank=True,
-        help_text="Page subtitle displayed below the title"
+        help_text="Legacy subtitle field retained for existing data."
+    )
+
+    introduction_heading = models.CharField(
+        max_length=200,
+        blank=True,
+        default="Introduction",
+        help_text="Optional editable heading displayed above the introduction."
     )
 
     introduction = models.TextField(
         blank=True,
-        help_text="Introductory content displayed at the top of the page"
+        help_text="Optional introductory content displayed below the introduction heading."
     )
 
     hero_description = models.TextField(
@@ -2022,7 +2077,14 @@ class ExpertReview(models.Model):
     module_name = models.CharField(
         max_length=200,
         blank=True,
-        help_text="Name of the module or category this review belongs to"
+        help_text="Optional module/category label displayed in the left column, for example CLARITY-50."
+    )
+
+    button_text = models.CharField(
+        max_length=100,
+        blank=True,
+        default="View Testimonial",
+        help_text="Optional button text that expands or collapses this review's testimonial images."
     )
 
     cover_image = models.ImageField(
@@ -2174,6 +2236,7 @@ class EkalavyaLandingSectionVideo(models.Model):
     VIDEO_TYPE_CHOICES = [
         ("youtube", "YouTube"),
         ("upload", "Uploaded Video"),
+        ("other", "Other (External Link)"),
     ]
 
     section = models.ForeignKey(
@@ -2197,6 +2260,11 @@ class EkalavyaLandingSectionVideo(models.Model):
     youtube_url = models.URLField(
         blank=True,
         help_text="YouTube video URL",
+    )
+
+    other_url = models.URLField(
+        blank=True,
+        help_text="Optional external URL opened when the thumbnail is clicked if Video Type is Other.",
     )
 
     uploaded_video = models.FileField(
@@ -2224,46 +2292,67 @@ class EkalavyaLandingSectionVideo(models.Model):
     def __str__(self):
         return f"{self.section} - Video {self.pk or ''}"
 
-    def clean(self):
-        from django.core.exceptions import ValidationError
 
+    def clean(self):
         if self.video_type == "youtube":
             if not self.youtube_url:
-                raise ValidationError(
-                    {
-                        "youtube_url": (
-                            "YouTube URL is required when Video Type is YouTube."
-                        )
-                    }
-                )
+                raise ValidationError({
+                    "youtube_url": (
+                        "YouTube URL is required when Video Type is YouTube."
+                    )
+                })
 
             if self.uploaded_video:
-                raise ValidationError(
-                    {
-                        "uploaded_video": (
-                            "Uploaded Video must be empty when Video Type is YouTube."
-                        )
-                    }
-                )
+                raise ValidationError({
+                    "uploaded_video": (
+                        "Uploaded Video must be empty when Video Type is YouTube."
+                    )
+                })
+
+            if self.other_url:
+                raise ValidationError({
+                    "other_url": (
+                        "External URL must be empty when Video Type is YouTube."
+                    )
+                })
 
         elif self.video_type == "upload":
             if not self.uploaded_video:
-                raise ValidationError(
-                    {
-                        "uploaded_video": (
-                            "Uploaded Video is required when Video Type is Uploaded Video."
-                        )
-                    }
-                )
+                raise ValidationError({
+                    "uploaded_video": (
+                        "Uploaded Video is required when Video Type is Uploaded Video."
+                    )
+                })
 
             if self.youtube_url:
-                raise ValidationError(
-                    {
-                        "youtube_url": (
-                            "YouTube URL must be empty when Video Type is Uploaded Video."
-                        )
-                    }
-                )            
+                raise ValidationError({
+                    "youtube_url": (
+                        "YouTube URL must be empty when Video Type is Uploaded Video."
+                    )
+                })
+
+            if self.other_url:
+                raise ValidationError({
+                    "other_url": (
+                        "External URL must be empty when Video Type is Uploaded Video."
+                    )
+                })
+
+        elif self.video_type == "other":
+            if self.youtube_url:
+                raise ValidationError({
+                    "youtube_url": (
+                        "YouTube URL must be empty when Video Type is Other."
+                    )
+                })
+
+            if self.uploaded_video:
+                raise ValidationError({
+                    "uploaded_video": (
+                        "Uploaded Video must be empty when Video Type is Other."
+                    )
+                })
+
 
 # ---------------------------------------------------------------------------
 # Dynamic Information Zone
@@ -2373,7 +2462,7 @@ class NoticeBoard(models.Model):
         blank=True,
         help_text="Internal admin label used to identify this notice. Not displayed on the website.",
     )
-    
+
     title = models.CharField(
         max_length=200,
         blank=True,
@@ -2384,7 +2473,7 @@ class NoticeBoard(models.Model):
         blank=True,
         help_text="Notice description or supporting information.",
     )
-    
+
     image = models.ImageField(
         upload_to="footer/notices/",
         blank=True,
@@ -2434,7 +2523,7 @@ class EventActivity(models.Model):
         blank=True,
         help_text="Internal admin label used to identify this event or activity. Not displayed on the website.",
     )
-    
+
     title = models.CharField(
         max_length=200,
         blank=True,
@@ -2496,4 +2585,4 @@ class EventActivity(models.Model):
         ordering = ["-event_date", "display_order", "-created_at", "id"]
 
     def __str__(self):
-        return self.title   
+        return self.title

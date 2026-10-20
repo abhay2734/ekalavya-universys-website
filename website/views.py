@@ -14,8 +14,7 @@ from .models import (
     FAQPage,
     FAQItem,
     FreeTrainingPage,
-    FreeTrainingVideo,
-    FreeEBook,
+    FreeTrainingTableCell,
     ContactPage,
     ContactCard,
     ContactInformation,
@@ -99,20 +98,48 @@ def home(request):
     return render(request, "new_home.html", context)
 
 
+
 def free_training(request):
     page = FreeTrainingPage.load()
 
-    videos = FreeTrainingVideo.objects.filter(active=True).order_by("display_order", "id")
+    images = page.gallery_images.filter(active=True).order_by(
+        "display_order", "id"
+    )
 
-    ebooks = FreeEBook.objects.filter(active=True).order_by("display_order", "id")
+    after_table_images = page.after_table_images.filter(active=True).order_by(
+    "display_order", "id"
+    )
+
+    columns = page.table_columns.filter(active=True).order_by(
+        "display_order", "id"
+    )
+
+    rows = (
+        page.table_rows
+        .filter(active=True)
+        .order_by("display_order", "id")
+        .prefetch_related(
+            Prefetch(
+                "cells",
+                queryset=(
+                    FreeTrainingTableCell.objects
+                    .select_related("column")
+                    .order_by("column__display_order", "id")
+                ),
+            )
+        )
+    )
 
     context = {
         "page": page,
-        "videos": videos,
-        "ebooks": ebooks,
+        "images": images,
+        "columns": columns,
+        "rows": rows,
+        "after_table_images": after_table_images,
     }
 
     return render(request, "free_training_page.html", context)
+
 
 
 def clarity_page(request):

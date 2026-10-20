@@ -1396,7 +1396,7 @@ a.nav-link[href*="expert-reviews"] .nav-link-support {
 .dynamic-information-section-header h3 {
     margin: 0;
     color: #FFFFFF;
-    font-size: 28px;
+    font-size: 32px;
     line-height: 1.25;
     font-weight: 900;
     letter-spacing: 0.4px;
@@ -1477,7 +1477,7 @@ a.nav-link[href*="expert-reviews"] .nav-link-support {
 
 .dynamic-information-item-content {
     min-width: 0;
-    padding: 18px 18px 17px;
+    padding:8px 8px 17px;
     flex: 1;
 }
 
@@ -1524,8 +1524,8 @@ a.nav-link[href*="expert-reviews"] .nav-link-support {
     justify-content: center;
     width: fit-content;
     min-height: 34px;
-    margin-top: 12px;
-    padding: 7px 14px;
+    margin-top: 6px;
+    padding: 14px 24px;
     border-radius: 999px;
     color: var(--color-bg-primary);
     background: linear-gradient(
@@ -1533,7 +1533,7 @@ a.nav-link[href*="expert-reviews"] .nav-link-support {
         var(--color-accent-primary),
         var(--color-accent-secondary)
     );
-    font-size: 11px;
+    font-size: 18px;
     font-weight: 900;
     text-decoration: none;
     letter-spacing: .4px;

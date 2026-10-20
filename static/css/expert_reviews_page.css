@@ -937,3 +937,241 @@
     margin: 0;
     text-shadow: 0 0 20px rgba(255, 180, 60, 0.5);
 }
+
+
+/* ============================================
+   EXPERT REVIEWS — PAIRED MODULE ROWS
+   Preserves the existing royal scroll design.
+   ============================================ */
+
+.er-review-list {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Each module and its button form one row */
+.er-review-row {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 24px;
+    padding: 0;
+    text-align: left;
+    border: 1px solid rgba(180, 130, 70, 0.42);
+    border-radius: 14px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 250, 235, 0.55),
+        rgba(220, 200, 157, 0.38)
+    );
+    box-shadow:
+        0 5px 18px rgba(80, 50, 20, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+    transition:
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.er-review-row:hover {
+    border-color: rgba(180, 130, 40, 0.75);
+    box-shadow:
+        0 8px 24px rgba(80, 50, 20, 0.18),
+        0 0 14px rgba(230, 169, 60, 0.12);
+}
+
+/* Left module label and right button */
+.er-review-row-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: 100%;
+    min-height: 88px;
+    padding: 18px 24px;
+    box-sizing: border-box;
+}
+
+.er-review-module-column {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: left;
+}
+
+.er-review-module-name {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.1rem, 2.5vw, 1.65rem);
+    line-height: 1.35;
+    letter-spacing: 1.5px;
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+    color: #3B2413;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.er-review-button-column {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Button retains the existing gold visual style */
+.er-review-row .er-read-full-review {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    min-height: 44px;
+    white-space: normal;
+    text-align: center;
+}
+
+/* Keep testimonial images hidden until JavaScript opens the panel */
+.er-review-expanded[hidden] {
+    display: none !important;
+}
+
+/* Expandable testimonial panel */
+.er-review-row .er-review-expanded {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 24px;
+    border-top: 1px solid transparent;
+    box-sizing: border-box;
+    transition:
+        max-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.35s ease,
+        padding 0.35s ease,
+        border-color 0.35s ease;
+}
+
+/* Open state */
+.er-review-row.expanded .er-review-expanded {
+    opacity: 1;
+    padding: 20px 24px 24px;
+    border-top-color: rgba(180, 130, 40, 0.25);
+}
+
+/* Images inside the expanded panel */
+.er-review-row .er-review-cover-frame {
+    width: 100%;
+    margin: 0 auto 20px;
+    text-align: center;
+    background: rgba(26, 18, 16, 0.06);
+    border: 1px solid rgba(180, 130, 40, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.er-review-row .er-review-cover-frame:last-child {
+    margin-bottom: 0;
+}
+
+.er-review-row .er-review-cover {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.er-review-row .er-review-additional-caption {
+    color: #4A3524;
+    padding: 12px 16px;
+    text-shadow: none;
+}
+
+/* Keyboard accessibility */
+.er-review-row .er-read-full-review:focus-visible {
+    outline: 3px solid #6B4714;
+    outline-offset: 4px;
+}
+
+/* ============================================
+   RESPONSIVE — TABLET AND MOBILE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .er-review-row {
+        margin-bottom: 18px;
+        border-radius: 12px;
+    }
+
+    .er-review-row-header {
+        min-height: 76px;
+        gap: 14px;
+        padding: 16px 18px;
+    }
+
+    .er-review-module-name {
+        font-size: clamp(1rem, 3.5vw, 1.35rem);
+        letter-spacing: 1px;
+    }
+
+    .er-review-row .er-read-full-review {
+        min-height: 42px;
+        padding: 10px 16px;
+        font-size: 0.78rem;
+        letter-spacing: 0.3px;
+    }
+
+    .er-review-row .er-review-expanded {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    .er-review-row.expanded .er-review-expanded {
+        padding: 16px 18px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .er-review-row-header {
+        gap: 10px;
+        padding: 14px 12px;
+    }
+
+    .er-review-module-name {
+        font-size: 0.95rem;
+        letter-spacing: 0.5px;
+    }
+
+    .er-review-row .er-read-full-review {
+        min-height: 40px;
+        padding: 9px 11px;
+        font-size: 0.7rem;
+    }
+
+    .er-review-row .er-review-expanded {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .er-review-row.expanded .er-review-expanded {
+        padding: 12px 12px 16px;
+    }
+}
+
+/* ============================================
+   EXPERT REVIEWS — LARGER TESTIMONIAL BUTTON
+   ============================================ */
+
+.er-review-row .er-read-full-review {
+    font-size: 17px;
+    padding: 15px 30px;
+    min-height: 54px;
+    min-width: 210px;
+    font-weight: 600;
+    line-height: 1.4;
+    border-radius: 6px;
+}
+
+/* Reduce the Expert Reviews page title size */
+.er-page-body .er-page-title {
+    font-size: clamp(26px, 3vw, 36px);
+    line-height: 1.25;
+}

@@ -1,19 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}
-{% if page.seo_title %}{{ page.seo_title }}{% else %}Free Training | Ekalavya Universys{% endif %}
-{% endblock %}
-
-{% block extra_head %}
-{% if page.seo_description %}
-<meta name="description" content="{{ page.seo_description }}">
-{% endif %}
-{% if page.seo_keywords %}
-<meta name="keywords" content="{{ page.seo_keywords }}">
-{% endif %}
-{% endblock %}
-
 {% block body_attrs %} class="ft-page-body"{% endblock %}
 
 {% block extra_css %}
@@ -29,116 +16,126 @@
     }
 </style>
 {% endif %}
-
 {% endblock %}
 
 {% block content %}
 
-{% if page %}
 <div class="ft-bg"></div>
 
-<!-- ===== PAGE HEADER ===== -->
-<section class="ft-header-section">
-    <div class="ft-page-inner">
-        <h1 class="ft-page-title ft-fade-up">{{ page.title }}</h1>
-        {% if page.subtitle %}
-        <p class="ft-page-subtitle ft-fade-up">{{ page.subtitle }}</p>
-        {% endif %}
-        <div class="ft-title-divider ft-fade-up"></div>
-    </div>
-</section>
+<!-- ===== ROYAL SCROLL DESIGN ===== -->
+<div class="ft-scroll-wrapper">
+    <div class="ft-opened-scroll">
+        <div class="ft-scroll-glow" aria-hidden="true"></div>
 
-<!-- ===== FREE TRAINING SECTION ===== -->
-<section class="ft-section">
-    <div class="ft-page-inner">
-        <h2 class="ft-section-title ft-fade-up">{{ page.free_training_section_title }}</h2>
-        {% if page.free_training_section_subtitle %}
-        <p class="ft-section-subtitle ft-fade-up">{{ page.free_training_section_subtitle }}</p>
-        {% endif %}
-
-        {% if videos %}
-        <div class="ft-video-grid">
-            {% for video in videos %}
-            <div class="ft-video-card ft-fade-up">
-                {% if video.featured %}
-                <span class="ft-featured-badge">Featured</span>
+        <div class="ft-scroll-outer">
+            <div class="ft-scroll-rod-top" aria-hidden="true"></div>
+            <div class="ft-scroll-rod-cap-outer left" aria-hidden="true"></div>
+            <div class="ft-scroll-rod-cap-outer right" aria-hidden="true"></div>
+<div class="ft-scroll-content">
+    {% if images %}
+    <section class="ft-gallery" aria-label="Free Training images">
+        <div class="ft-gallery-grid">
+            {% for image in images %}
+            <figure class="ft-gallery-item">
+                <img
+                    src="{{ image.image.url }}"
+                    alt="{{ image.caption|default:'Free Training image' }}"
+                    loading="lazy">
+                {% if image.caption %}
+                <figcaption>{{ image.caption }}</figcaption>
                 {% endif %}
-                <div class="ft-video-thumb-frame"
-                     data-video-type="{{ video.video_type }}"
-                     data-youtube-url="{{ video.youtube_url|default:'' }}"
-                     data-upload-url="{% if video.uploaded_video %}{{ video.uploaded_video.url }}{% endif %}">
-                     <img src="{{ video.thumbnail.url }}" alt="{{ video.title }}" class="ft-video-thumb">
-                </div>
-                <div class="ft-video-info">
-<h3 class="ft-video-title">{{ video.title }}</h3>
-                 </div>
-            </div>
+            </figure>
             {% endfor %}
         </div>
-        {% else %}
-        <div class="ft-empty-state ft-fade-up">
-            <div class="ft-empty-icon" aria-hidden="true">&#127909;</div>
-            <h3 class="ft-empty-title">No Videos Available</h3>
-            <p class="ft-empty-text">Free training videos are being prepared. Please check back soon.</p>
+    </section>
+    {% endif %}
+    {% if page.intro_title or page.intro_description %}
+    <section class="ft-introduction">
+        {% if page.intro_title %}
+        <h2 class="ft-intro-title">{{ page.intro_title }}</h2>
+        {% endif %}
+        {% if page.intro_description %}
+        <div class="ft-intro-description">
+            {{ page.intro_description|linebreaksbr }}
         </div>
         {% endif %}
-    </div>
-</section>
+    </section>
+    {% endif %}
+    {% if columns and rows %}
+    <section class="ft-table-section" aria-label="Free Training information">
+        <div class="ft-table-scroll">
+            <table class="ft-dynamic-table">
+                <thead>
+                    <tr>
+                        {% if page.show_serial_numbers %}
+                        <th scope="col" class="ft-serial-heading">S.No.</th>
+                        {% endif %}
 
-<!-- ===== FREE EBOOKS SECTION ===== -->
-<section class="ft-section ft-ebooks-section">
-    <div class="ft-page-inner">
-        <h2 class="ft-section-title ft-fade-up">{{ page.free_ebooks_section_title }}</h2>
-    </div>
+                        {% for column in columns %}
+                        <th scope="col">{{ column.heading }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
 
-    {% if ebooks %}
-    <div class="ft-ebooks-showcase {% if ebooks|length == 1 %}ft-ebooks-single{% endif %}">
-        {% for ebook in ebooks %}
-        <div class="ft-ebook-card ft-fade-up">
-            <div class="ft-ebook-cover-frame">
-                <img src="{{ ebook.cover.url }}" alt="{{ ebook.title }}" class="ft-ebook-cover">
-            </div>
-            <div class="ft-ebook-info">
-                <h3 class="ft-ebook-title">{{ ebook.title }}</h3>
-                <a href="{{ ebook.file.url }}" class="ft-card-button" target="_blank" rel="noopener noreferrer">
-                    DOWNLOAD EBOOK
-                </a>
-            </div>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        {% if page.show_serial_numbers %}
+                        <td class="ft-serial-cell">{{ forloop.counter }}</td>
+                        {% endif %}
+
+                        {% for column in columns %}
+                        <td>
+                            {% for cell in row.cells.all %}
+                                {% if cell.column_id == column.id %}
+                                    {% if cell.cell_type == "button" %}
+                                        {% if cell.text and cell.button_url %}
+                                        <a
+                                            class="ft-table-button"
+                                            href="{{ cell.button_url }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >{{ cell.text }}</a>
+                                        {% endif %}
+                                    {% else %}
+                                        {{ cell.text|linebreaksbr }}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
+    </section>
+    {% endif %}
+
+{% if after_table_images %}
+<section class="ft-gallery ft-gallery-after-table" aria-label="Additional Free Training images">
+    <div class="ft-gallery-grid">
+        {% for image in after_table_images %}
+        <figure class="ft-gallery-item">
+            <img
+                src="{{ image.image.url }}"
+                alt="{{ image.caption|default:'Free Training image' }}"
+                loading="lazy"
+            >
+            {% if image.caption %}
+            <figcaption>{{ image.caption }}</figcaption>
+            {% endif %}
+        </figure>
         {% endfor %}
     </div>
-    {% else %}
-    <div class="ft-empty-state ft-fade-up">
-        <div class="ft-empty-icon" aria-hidden="true">&#128214;</div>
-        <h3 class="ft-empty-title">No eBooks Available</h3>
-        <p class="ft-empty-text">Free eBooks are being prepared. Please check back soon.</p>
-    </div>
-    {% endif %}
 </section>
+{% endif %}
+</div>
 
 
-<!-- ===== VIDEO MODAL ===== -->
-<div class="ft-video-modal" id="ftVideoModal" role="dialog" aria-modal="true" aria-label="Video player" hidden>
-    <div class="ft-video-modal-content">
-        <button type="button" class="ft-close-video" id="ftCloseVideo" aria-label="Close video">&times;</button>
-        <div id="ftVideoContainer"></div>
+            <div class="ft-scroll-rod-bottom" aria-hidden="true"></div>
+        </div>
     </div>
 </div>
 
-{% else %}
-
-<!-- ===== NO CONTENT ===== -->
-<section class="ft-placeholder">
-    <div class="ft-placeholder-inner ft-fade-up">
-        <h2>Free Training</h2>
-        <p>Content is being prepared. Please check back soon.</p>
-    </div>
-</section>
-
-{% endif %}
-
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'js/free_training_page.js' %}"></script>
 {% endblock %}

@@ -1,44 +1,50 @@
+
 document.addEventListener("DOMContentLoaded", function () {
+    function toggleVideoFields(videoType, clearInactiveFields) {
+        const row = videoType.closest("tr") || videoType.closest(".inline-related");
+        if (!row) return;
 
-    function toggleVideoFields() {
+        const fields = {
+            youtube: row.querySelector('[name$="-youtube_url"], #id_youtube_url'),
+            upload: row.querySelector('[name$="-uploaded_video"], #id_uploaded_video'),
+            other: row.querySelector('[name$="-other_url"], #id_other_url')
+        };
 
-        const videoType = document.getElementById("id_video_type");
-        const youtubeField = document.getElementById("id_youtube_url");
-        const uploadField = document.getElementById("id_uploaded_video");
+        Object.entries(fields).forEach(function ([type, field]) {
+            if (!field) return;
 
-        if (!videoType) return;
+            const shouldEnable = videoType.value === type;
 
-        if (videoType.value === "youtube") {
+            if (!shouldEnable && clearInactiveFields) {
+                field.value = "";
+            }
 
-            youtubeField.disabled = false;
-            uploadField.disabled = true;
-
-        }
-
-        else if (videoType.value === "upload") {
-
-            youtubeField.disabled = true;
-            uploadField.disabled = false;
-
-        }
-
-        else {
-
-            youtubeField.disabled = false;
-            uploadField.disabled = false;
-
-        }
-
+            field.disabled = !shouldEnable;
+        });
     }
 
-    const videoType = document.getElementById("id_video_type");
+    function initializeVideoType(videoType) {
+        toggleVideoFields(videoType, false);
 
-    if (videoType) {
-
-        toggleVideoFields();
-
-        videoType.addEventListener("change", toggleVideoFields);
-
+        videoType.addEventListener("change", function () {
+            toggleVideoFields(videoType, true);
+        });
     }
 
+    function initializeRows(container) {
+        container.querySelectorAll(
+            '[name="video_type"], [name$="-video_type"], #id_video_type'
+        ).forEach(function (videoType) {
+            if (videoType.dataset.videoToggleInitialized === "true") return;
+
+            videoType.dataset.videoToggleInitialized = "true";
+            initializeVideoType(videoType);
+        });
+    }
+
+    initializeRows(document);
+
+    document.addEventListener("formset:added", function (event) {
+        initializeRows(event.target);
+    });
 });

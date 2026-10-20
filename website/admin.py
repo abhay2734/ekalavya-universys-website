@@ -9,8 +9,11 @@ from .models import (
     FAQPage,
     FAQItem,
     FreeTrainingPage,
-    FreeTrainingVideo,
-    FreeEBook,
+    FreeTrainingImage,
+    FreeTrainingAfterTableImage,
+    FreeTrainingTableColumn,
+    FreeTrainingTableRow,
+    FreeTrainingTableCell,
     ContactPage,
     ContactCard,
     ContactInformation,
@@ -333,25 +336,43 @@ class FAQItemAdmin(admin.ModelAdmin):
     ordering = ["display_order", "id"]
 
 
-class FreeTrainingVideoInline(admin.TabularInline):
-    model = FreeTrainingVideo
+
+
+class FreeTrainingImageInline(admin.TabularInline):
+    model = FreeTrainingImage
     extra = 1
-    fields = ["display_order", "featured", "thumbnail", "title", "active"]
+    fields = ["display_order", "image", "caption", "active"]
     ordering = ["display_order", "id"]
 
-
-class FreeEBookInline(admin.TabularInline):
-    model = FreeEBook
+class FreeTrainingAfterTableImageInline(admin.TabularInline):
+    model = FreeTrainingAfterTableImage
     extra = 1
-    fields = ["display_order", "featured", "cover", "title", "active"]
+    fields = ["display_order", "image", "caption", "active"]
+    ordering = ["display_order", "id"]
+    verbose_name = "Image After Table"
+    verbose_name_plural = "Images After Table"
+
+class FreeTrainingTableColumnInline(admin.TabularInline):
+    model = FreeTrainingTableColumn
+    extra = 1
+    fields = ["display_order", "heading", "active"]
     ordering = ["display_order", "id"]
 
+class FreeTrainingTableCellInline(admin.TabularInline):
+    model = FreeTrainingTableCell
+    extra = 1
+    fields = ["column", "cell_type", "text", "button_url"]
+    ordering = ["column__display_order", "id"]
 
 @admin.register(FreeTrainingPage)
 class FreeTrainingPageAdmin(admin.ModelAdmin):
     list_display = ["title", "active", "updated_at"]
     list_filter = ["active"]
-    inlines = [FreeTrainingVideoInline, FreeEBookInline]
+    inlines = [
+    FreeTrainingImageInline,
+    FreeTrainingTableColumnInline,
+    FreeTrainingAfterTableImageInline,
+    ]
     fieldsets = (
         ("Page Identity", {
             "fields": ("title", "subtitle"),
@@ -361,13 +382,13 @@ class FreeTrainingPageAdmin(admin.ModelAdmin):
             "fields": ("background_image",),
             "classes": ("collapse",),
         }),
-        ("Free Training Section", {
-            "fields": ("free_training_section_title", "free_training_section_subtitle"),
-            "description": "Heading and subtitle for the Free Training (videos) section."
+                ("Optional Introduction", {
+            "fields": ("intro_title", "intro_description"),
+            "description": "Both fields are optional. Leave either field empty if it should not appear on the page.",
         }),
-        ("Free eBooks Section", {
-            "fields": ("free_ebooks_section_title", "free_ebooks_section_subtitle"),
-            "description": "Heading and subtitle for the Free eBooks section."
+        ("Table Settings", {
+            "fields": ("show_serial_numbers",),
+            "description": "Enable or disable the automatically generated serial-number column.",
         }),
         ("SEO", {
             "fields": ("seo_title", "seo_description", "seo_keywords"),
@@ -388,28 +409,22 @@ class FreeTrainingPageAdmin(admin.ModelAdmin):
         return False
 
 
-@admin.register(FreeTrainingVideo)
-class FreeTrainingVideoAdmin(admin.ModelAdmin):
-    list_display = ["display_order", "title", "featured", "active", "video_type"]
-    list_display_links = ["title"]
-    list_filter = ["active", "featured", "video_type"]
-    search_fields = ["title"]
-    ordering = ["display_order", "id"]
-    list_editable = ["display_order", "featured", "active"]
-    exclude = ("thumbnail_image",)
-
-    class Media:
-        js = ("js/admin_video_toggle.js",)
-
-
-@admin.register(FreeEBook)
-class FreeEBookAdmin(admin.ModelAdmin):
-    list_display = ["display_order", "title", "featured", "active"]
-    list_display_links = ["title"]
-    list_filter = ["active", "featured"]
-    search_fields = ["title"]
-    ordering = ["display_order", "id"]
-    list_editable = ["display_order", "featured", "active"]
+@admin.register(FreeTrainingTableRow)
+class FreeTrainingTableRowAdmin(admin.ModelAdmin):
+    list_display = ["page", "display_order", "active"]
+    list_filter = ["page", "active"]
+    ordering = ["page", "display_order", "id"]
+    fieldsets = (
+        ("Table Row", {
+            "fields": ("page", "display_order", "active"),
+            "description": (
+                "Create the table columns in the Free Training Page record first. "
+                "Then select the same page here and add this row's cells below. "
+                "For each cell, choose a column and select Text or Button."
+            ),
+        }),
+    )
+    inlines = [FreeTrainingTableCellInline]
 
 
 @admin.register(ContactPage)
@@ -511,11 +526,25 @@ class ContactSubmissionAdmin(admin.ModelAdmin):
         return False
 
 
+
+class ExpertReviewImageInline(admin.TabularInline):
+    model = ExpertReviewImage
+    extra = 1
+    fields = ["display_order", "image", "caption", "active"]
+    ordering = ["display_order", "id"]
+
+
 class ExpertReviewInline(admin.TabularInline):
     model = ExpertReview
     extra = 1
-    fields = ["display_order", "active", "module_name", "cover_image"]
+    fields = [
+        "display_order",
+        "active",
+        "module_name",
+        "button_text",
+    ]
     ordering = ["display_order", "id"]
+    show_change_link = True
 
 
 @admin.register(ExpertReviewsPage)
@@ -523,18 +552,21 @@ class ExpertReviewsPageAdmin(admin.ModelAdmin):
     list_display = ["title", "active", "updated_at"]
     list_filter = ["active"]
     inlines = [ExpertReviewInline]
+
     fieldsets = (
         ("Page Identity", {
-            "fields": ("title", "subtitle"),
-            "description": "The main heading and subtitle of the Expert Reviews page."
+            "fields": ("title",),
         }),
         ("Background Image", {
             "fields": ("background_image",),
             "classes": ("collapse",),
         }),
         ("Introduction", {
-            "fields": ("introduction",),
-            "description": "Introductory content displayed below the hero section."
+            "fields": ("introduction_heading", "introduction"),
+            "description": (
+                "Optional introduction heading and content. "
+                "Leave either field empty if it should not appear."
+            ),
         }),
         ("SEO", {
             "fields": ("seo_title", "seo_description", "seo_keywords"),
@@ -554,23 +586,34 @@ class ExpertReviewsPageAdmin(admin.ModelAdmin):
         return False
 
 
-class ExpertReviewImageInline(admin.TabularInline):
-    model = ExpertReviewImage
-    extra = 1
-    fields = ["display_order", "image", "caption", "active"]
-    ordering = ["display_order", "id"]
-
-
 @admin.register(ExpertReview)
 class ExpertReviewAdmin(admin.ModelAdmin):
-    list_display = ["display_order", "module_name", "active", "updated_at"]
+    list_display = [
+        "display_order",
+        "module_name",
+        "button_text",
+        "active",
+        "updated_at",
+    ]
     list_display_links = ["module_name"]
     list_filter = ["active"]
-    search_fields = ["module_name"]
+    search_fields = ["module_name", "button_text"]
     list_editable = ["display_order", "active"]
     ordering = ["display_order", "id"]
     inlines = [ExpertReviewImageInline]
 
+    fieldsets = (
+        ("Review Row", {
+            "fields": (
+                "expert_reviews_page",
+                "display_order",
+                "active",
+                "module_name",
+                "button_text",
+                "cover_image",
+            ),
+        }),
+    )
 
     def has_delete_permission(self, request, obj=None):
         return False
@@ -602,6 +645,7 @@ class EkalavyaLandingPageAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+
 class EkalavyaLandingSectionVideoInline(admin.TabularInline):
     model = EkalavyaLandingSectionVideo
     extra = 1
@@ -610,10 +654,15 @@ class EkalavyaLandingSectionVideoInline(admin.TabularInline):
         "thumbnail",
         "video_type",
         "youtube_url",
+        "other_url",
         "uploaded_video",
         "active",
     ]
     ordering = ["display_order", "id"]
+
+    class Media:
+        js = ("js/admin_video_toggle.js",)
+
 
 @admin.register(EkalavyaLandingSection)
 class EkalavyaLandingSectionAdmin(admin.ModelAdmin):
@@ -685,7 +734,7 @@ class NoticeBoardAdmin(admin.ModelAdmin):
     list_filter = ["active"]
     search_fields = ["admin_label", "title", "description"]
     list_editable = ["display_order", "active"]
-    ordering = ["display_order", "-created_at", "id"]   
+    ordering = ["display_order", "-created_at", "id"]
 
 
 @admin.register(EventActivity)

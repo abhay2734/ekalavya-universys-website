@@ -1,726 +1,502 @@
+
 /* ============================================
    FREE TRAINING PAGE
-   Premium educational design matching
-   the Ekalavya Learning Architecture theme
-   (gold on deep brown).
+   Minimal royal parchment / scroll experience.
+   Preserves the Admin-managed background image
+   and existing royal-scroll design.
    ============================================ */
 
-/* --- Page Reset --- */
+/* --- Page Background --- */
 .ft-page-body {
-    background: var(--color-bg-primary);
     position: relative;
     z-index: auto;
     overflow-x: hidden;
+    background: var(--color-bg-primary, #211812);
 }
 
 .ft-bg {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: var(--color-bg-primary);
+    background:
+        radial-gradient(ellipse at 30% 20%, rgba(180, 120, 50, 0.12), transparent 60%),
+        radial-gradient(ellipse at 70% 80%, rgba(180, 120, 50, 0.08), transparent 60%),
+        var(--color-bg-primary, #211812);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
-.ft-page-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 24px;
-}
-
 /* ============================================
-   PAGE HEADER
+   ROYAL SCROLL WRAPPER
    ============================================ */
-.ft-header-section {
-    background: transparent;
-    padding: 56px 24px 10px;
-    text-align: center;
-}
 
-.ft-page-title {
-    font-family: 'Lato', sans-serif;
-    font-weight: 900;
-    font-size: clamp(2.6rem, 6vw, 4rem);
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: #FFD98E;
-    margin: 0;
-    text-shadow: 0 0 24px rgba(255, 180, 60, 0.55);
-}
-
-.ft-page-subtitle {
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--color-text-primary, #F5E9D8);
-    margin: 14px 0 0;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-}
-
-.ft-title-divider {
-    width: 140px;
-    height: 3px;
-    margin: 28px auto 0;
-    background: linear-gradient(90deg, transparent, var(--color-accent-primary), transparent);
+.ft-scroll-wrapper {
     position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    padding: 44px 24px;
 }
 
-.ft-title-divider::before {
-    content: '◆';
+.ft-opened-scroll {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    z-index: 2;
+}
+
+/* --- Gold Glow --- */
+.ft-scroll-glow {
     position: absolute;
-    top: 50%;
+    top: -45px;
     left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--color-accent-primary);
-    font-size: 12px;
-    background: var(--color-bg-primary);
-    padding: 0 10px;
-}
-
-/* ============================================
-   SECTIONS
-   ============================================ */
-.ft-section {
-    background: transparent;
-    padding: 28px 24px;
-}
-
-.ft-section-title {
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    font-size: 1.8rem;
-    color: #FFD98E;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin: 0 0 12px;
-    text-shadow: 0 0 15px rgba(255, 180, 60, 0.7);
-    text-align: center;
-}
-
-.ft-section-subtitle {
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    font-size: 1.1rem;
-    color: var(--color-text-secondary, #B8A898);
-    text-align: center;
-    margin: 0 0 32px;
-    letter-spacing: 0.5px;
-}
-
-/* ============================================
-   VIDEO GRID & CARDS
-   ============================================ */
-.ft-video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 28px;
-}
-
-.ft-video-card {
-    position: relative;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 200, 100, 0.4);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(230, 169, 60, 0.08);
-    overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-    cursor: pointer;
-}
-
-.ft-video-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 220, 130, 0.7);
-    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.45), 0 0 30px rgba(230, 169, 60, 0.16);
-}
-
-.ft-video-thumb-frame {
-    position: relative;
-    width: 100%;
-    cursor: pointer;
-    overflow: hidden;
-    background: #1a1210;
-}
-
-.ft-video-thumb {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    object-position: center;
-    transition: opacity 0.4s ease, transform 0.6s ease;
-}
-
-.ft-video-thumb-frame:hover .ft-video-thumb {
-    opacity: 0.7;
-    transform: scale(1.03);
-}
-
-.ft-video-info {
-    padding: 20px 24px 24px;
-}
-
-.ft-video-title {
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    font-size: 1.15rem;
-    color: #FFD98E;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin: 0 0 10px;
-    text-shadow: 0 0 10px rgba(255, 180, 60, 0.4);
-    line-height: 1.3;
-    text-align: center;
-}
-
-.ft-video-desc {
-    font-family: 'Lato', sans-serif;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--color-text-primary, #F5E9D8);
-    margin: 0 0 14px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.ft-video-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.ft-video-duration {
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--color-text-secondary, #B8A898);
-    letter-spacing: 0.5px;
-    background: rgba(255, 255, 255, 0.06);
-    padding: 4px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 200, 100, 0.25);
-}
-
-.ft-video-action-text {
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: var(--color-accent-primary, #E6A93C);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-/* ============================================
-    EBOOKS SHOWCASE
-    ============================================ */
-.ft-ebooks-section {
-    padding: 0;
-}
-
-.ft-ebooks-showcase {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 28px;
-    padding: 0 32px;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.ft-ebooks-single {
-    grid-template-columns: 1fr;
-    max-width: 600px;
-    padding: 0 20px;
-}
-
-.ft-ebook-card {
-    position: relative;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 200, 100, 0.4);
-    border-radius: 24px;
-    box-shadow: 0 16px 56px rgba(0, 0, 0, 0.45), 0 0 36px rgba(230, 169, 60, 0.12);
-    overflow: hidden;
-    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.ft-ebook-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(255, 220, 130, 0.8);
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55), 0 0 48px rgba(230, 169, 60, 0.18);
-}
-
-.ft-ebook-cover-frame {
-    position: relative;
-    width: 100%;
-    background: #1a1210;
-    overflow: hidden;
-    aspect-ratio: 2/3;
-}
-
-.ft-ebook-cover {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    transition: transform 0.6s ease, opacity 0.4s ease;
-}
-
-.ft-ebook-card:hover .ft-ebook-cover {
-    transform: scale(1.03);
-    opacity: 0.92;
-}
-
-.ft-ebook-info {
-    padding: 24px 28px 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-}
-
-.ft-ebook-title {
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    font-size: 1.3rem;
-    color: #FFD98E;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin: 0;
-    text-shadow: 0 0 12px rgba(255, 180, 60, 0.5);
-    line-height: 1.3;
-    text-align: center;
-}
-
-/* Single ebook - Featured Showcase */
-.ft-ebooks-single .ft-ebook-card {
-    max-width: 520px;
-    margin: 0 auto;
-    width: 100%;
-}
-
-.ft-ebooks-single .ft-ebook-cover-frame {
-    aspect-ratio: auto;
-    max-height: 620px;
-}
-
-.ft-ebooks-single .ft-ebook-cover {
-    max-height: 620px;
-}
-
-.ft-ebooks-single .ft-ebook-info {
-    padding: 28px 32px 32px;
-}
-
-.ft-ebooks-single .ft-ebook-title {
-    font-size: 1.75rem;
-}
-
-/* ============================================
-   FEATURED BADGE
-   ============================================ */
-.ft-featured-badge {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, var(--color-accent-primary, #E6A93C), var(--color-accent-secondary, #FFB347));
-    color: var(--color-bg-primary, #3B2F2F);
-    font-family: 'Lato', sans-serif;
-    font-weight: 900;
-    font-size: 0.72rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 18px rgba(230, 169, 60, 0.5);
-    z-index: 10;
-}
-
-/* ============================================
-   CARD BUTTON
-   ============================================ */
-.ft-card-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: fit-content;
-    min-height: 44px;
-    padding: 10px 22px;
-    border-radius: 999px;
-    color: var(--color-bg-primary, #3B2F2F);
-    background: linear-gradient(135deg, var(--color-accent-primary, #E6A93C), var(--color-accent-secondary, #FFB347));
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    font-family: 'Lato', sans-serif;
-    font-weight: 800;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    text-decoration: none;
-    box-shadow: 0 8px 24px rgba(230, 169, 60, 0.22);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-    cursor: pointer;
-}
-
-.ft-card-button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, var(--color-accent-secondary, #FFB347), var(--color-accent-primary, #E6A93C));
-    box-shadow: 0 12px 32px rgba(230, 169, 60, 0.35);
-    color: var(--color-bg-primary, #3B2F2F);
-}
-
-/* ============================================
-   EMPTY STATE
-   ============================================ */
-.ft-empty-state {
-    text-align: center;
-    max-width: 520px;
-    margin: 20px auto 0;
-    padding: 56px 32px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 200, 100, 0.35);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 24px rgba(230, 169, 60, 0.08);
-}
-
-.ft-empty-icon {
-    font-size: 3.5rem;
-    line-height: 1;
-    margin-bottom: 18px;
-    filter: drop-shadow(0 0 16px rgba(230, 169, 60, 0.4));
-}
-
-.ft-empty-title {
-    font-family: 'Lato', sans-serif;
-    font-weight: 900;
-    font-size: 1.5rem;
-    color: #FFD98E;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin: 0 0 10px;
-    text-shadow: 0 0 16px rgba(255, 180, 60, 0.5);
-}
-
-.ft-empty-text {
-    font-family: 'Lato', sans-serif;
-    font-size: 1.05rem;
-    color: var(--color-text-secondary, #B8A898);
-    line-height: 1.7;
-    margin: 0;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-/* ============================================
-   PLACEHOLDER (no page content)
-   ============================================ */
-.ft-placeholder {
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-bg-primary);
-    padding: 80px 24px;
-}
-
-.ft-placeholder-inner {
-    text-align: center;
-    max-width: 600px;
-    padding: 60px 40px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 2px solid rgba(230, 169, 60, 0.6);
-    box-shadow: 0 0 40px rgba(230, 169, 60, 0.15);
-}
-
-.ft-placeholder-inner h2 {
-    font-family: 'Lato', sans-serif;
-    font-weight: 900;
-    font-size: 2.2rem;
-    color: #FFD98E;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin: 0 0 16px;
-    text-shadow: 0 0 20px rgba(255, 200, 80, 0.8);
-}
-
-.ft-placeholder-inner p {
-    font-family: 'Lato', sans-serif;
-    font-size: 1.2rem;
-    color: #ffffff;
-    line-height: 1.7;
-    margin: 0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* ============================================
-   GENERIC VIDEO MODAL
-   ============================================ */
-.ft-video-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.92);
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-}
-
-.ft-video-modal-content {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    max-width: 100vw;
-    max-height: 100vh;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0;
-    overflow: hidden;
+    width: min(500px, 80%);
+    height: 130px;
+    transform: translateX(-50%);
+    background: radial-gradient(
+        ellipse,
+        rgba(230, 169, 60, 0.27) 0%,
+        rgba(230, 169, 60, 0.08) 45%,
+        transparent 72%
+    );
     pointer-events: none;
+    z-index: 0;
+    animation: ftGlowPulse 3.5s ease-in-out infinite;
 }
 
-.ft-video-modal-content #ftVideoContainer,
-.ft-video-modal-content .ft-close-video {
-    pointer-events: auto;
+@keyframes ftGlowPulse {
+    0%,
+    100% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
-.ft-video-modal-content #ftVideoContainer {
-    width: auto;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    max-width: 100%;
-    max-height: 100%;
-    background: #000;
-}
-
-.ft-video-modal-content #ftVideoContainer iframe,
-.ft-video-modal-content #ftVideoContainer video {
+/* --- Main Parchment --- */
+.ft-scroll-outer {
+    position: relative;
+    isolation: isolate;
     width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
+    padding: 48px 28px 40px;
+    border: 1px solid rgba(230, 200, 130, 0.8);
+    border-radius: 12px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(139, 105, 20, 0.95) 0%,
+            rgba(200, 160, 80, 0.75) 1.2%,
+            transparent 2.2%
+        ),
+        linear-gradient(
+            225deg,
+            rgba(139, 105, 20, 0.95) 0%,
+            rgba(200, 160, 80, 0.75) 1.2%,
+            transparent 2.2%
+        ),
+        linear-gradient(
+            180deg,
+            #F4E4C1 0%,
+            #EEDDB8 24%,
+            #E8D5A8 58%,
+            #DCC89D 82%,
+            #C8B080 100%
+        );
+    box-shadow:
+        0 22px 65px rgba(0, 0, 0, 0.48),
+        0 0 28px rgba(200, 160, 80, 0.12),
+        inset 0 0 70px rgba(80, 50, 20, 0.12);
 }
 
-.ft-close-video {
+/* --- Parchment Texture --- */
+.ft-scroll-outer::before {
+    content: "";
     position: absolute;
-    top: 12px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    font-size: 28px;
-    line-height: 1;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background 0.3s ease;
-}
-
-.ft-close-video:hover {
-    background: rgba(220, 20, 60, 0.9);
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 3px,
+            rgba(100, 70, 30, 0.025) 3px,
+            rgba(100, 70, 30, 0.025) 6px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 4px,
+            rgba(100, 70, 30, 0.018) 4px,
+            rgba(100, 70, 30, 0.018) 8px
+        );
 }
 
 /* ============================================
-   SCROLL REVEAL
+   GOLD SCROLL RODS AND CAPS
    ============================================ */
-.ft-fade-up {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+
+.ft-scroll-rod-top,
+.ft-scroll-rod-bottom {
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    height: 22px;
+    border: 1px solid rgba(100, 65, 10, 0.65);
+    border-radius: 6px;
+    background: linear-gradient(
+        180deg,
+        #F0D88A 0%,
+        #C8A050 28%,
+        #9B7B2A 45%,
+        #C8A050 65%,
+        #8B6914 100%
+    );
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.32),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    z-index: 5;
 }
 
-.ft-fade-up.ft-revealed {
-    opacity: 1;
-    transform: translateY(0);
+.ft-scroll-rod-top {
+    top: -1px;
 }
 
-/* Staggered reveal for grid items */
-.ft-video-grid .ft-fade-up:nth-child(1),
-.ft-ebooks-showcase .ft-fade-up:nth-child(1) { transition-delay: 0s; }
+.ft-scroll-rod-bottom {
+    bottom: -1px;
+}
 
-.ft-video-grid .ft-fade-up:nth-child(2),
-.ft-ebooks-showcase .ft-fade-up:nth-child(2) { transition-delay: 0.1s; }
+.ft-scroll-rod-cap-outer {
+    position: absolute;
+    top: -8px;
+    width: 30px;
+    height: 36px;
+    border: 1px solid rgba(100, 65, 10, 0.7);
+    border-radius: 6px;
+    background: linear-gradient(
+        180deg,
+        #F0D88A 0%,
+        #C8A050 35%,
+        #A08030 65%,
+        #705010 100%
+    );
+    box-shadow: 0 4px 9px rgba(0, 0, 0, 0.4);
+    z-index: 6;
+}
 
-.ft-video-grid .ft-fade-up:nth-child(3),
-.ft-ebooks-showcase .ft-fade-up:nth-child(3) { transition-delay: 0.2s; }
+.ft-scroll-rod-cap-outer.left {
+    left: -5px;
+}
 
-.ft-video-grid .ft-fade-up:nth-child(4),
-.ft-ebooks-showcase .ft-fade-up:nth-child(4) { transition-delay: 0.3s; }
+.ft-scroll-rod-cap-outer.right {
+    right: -5px;
+}
 
-.ft-video-grid .ft-fade-up:nth-child(5),
-.ft-ebooks-showcase .ft-fade-up:nth-child(5) { transition-delay: 0.4s; }
-
-.ft-video-grid .ft-fade-up:nth-child(6),
-.ft-ebooks-showcase .ft-fade-up:nth-child(6) { transition-delay: 0.5s; }
-
-.ft-video-grid .ft-fade-up:nth-child(n+7),
-.ft-ebooks-showcase .ft-fade-up:nth-child(n+7) { transition-delay: 0.6s; }
+/* --- Empty Scroll Content Area --- */
+.ft-scroll-content {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    min-height: 0;
+}
 
 /* ============================================
-   RESPONSIVE - TABLET
+   RESPONSIVE SCROLL DESIGN
    ============================================ */
+
+/* --- Tablet --- */
 @media (max-width: 992px) {
-    .ft-page-inner {
-        padding: 0 20px;
+    .ft-scroll-wrapper {
+        padding: 34px 18px;
     }
 
-    .ft-video-grid {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 22px;
-    }
-
-    .ft-ebooks-showcase {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 22px;
-        padding: 0 24px;
+    .ft-scroll-outer {
+        padding: 44px 20px 34px;
     }
 }
 
-/* ============================================
-   RESPONSIVE - MOBILE
-   ============================================ */
+/* --- Mobile --- */
 @media (max-width: 768px) {
-    .ft-header-section {
-        padding: 12px 16px 6px;
+    .ft-scroll-wrapper {
+        padding: 24px 12px;
     }
 
-    .ft-section {
-        padding: 18px 16px;
+    .ft-scroll-outer {
+        padding: 40px 14px 28px;
+        border-radius: 9px;
     }
 
-    .ft-video-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    .ft-scroll-rod-top,
+    .ft-scroll-rod-bottom {
+        height: 18px;
     }
 
-    .ft-ebooks-showcase {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 20px;
-        padding: 0 16px;
-    }
-
-    .ft-section-title {
-        font-size: 1.5rem;
-    }
-
-    .ft-video-info {
-        padding: 16px 20px 20px;
-    }
-
-    .ft-video-title {
-        font-size: 1.05rem;
-    }
-
-    .ft-video-desc {
-        font-size: 0.95rem;
-    }
-
-    .ft-ebook-info {
-        padding: 16px 20px 20px;
-    }
-
-    .ft-ebook-title {
-        font-size: 1.05rem;
-    }
-
-    .ft-ebook-desc {
-        font-size: 0.95rem;
-    }
-
-    .ft-close-video {
-        top: 8px;
-        right: 10px;
-        width: 34px;
-        height: 34px;
-        font-size: 22px;
+    .ft-scroll-rod-cap-outer {
+        width: 24px;
+        height: 30px;
     }
 }
 
-/* ============================================
-   RESPONSIVE - SMALL MOBILE
-   ============================================ */
+/* --- Small Mobile --- */
 @media (max-width: 480px) {
-    .ft-ebooks-showcase {
+    .ft-scroll-wrapper {
+        padding: 18px 8px;
+    }
+
+    .ft-scroll-outer {
+        padding: 36px 10px 24px;
+    }
+}
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+    .ft-scroll-glow {
+        animation: none;
+    }
+}
+
+
+/* =========================================================
+   FREE TRAINING — ADMIN-MANAGED CONTENT
+   Gallery, optional introduction, dynamic table and buttons
+   ========================================================= */
+
+/* --- Image Gallery --- */
+.ft-gallery {
+    width: 100%;
+    margin: 0 auto 28px;
+}
+
+.ft-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.ft-gallery-item {
+    min-width: 0;
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    background: rgba(255, 248, 226, 0.82);
+    border: 1px solid rgba(167, 124, 52, 0.7);
+    border-radius: 8px;
+    box-shadow: 0 5px 16px rgba(48, 28, 12, 0.16);
+}
+
+.ft-gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.ft-gallery-item figcaption {
+    margin-top: 10px;
+    color: #5c3d2e;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+/* --- Optional Introduction --- */
+.ft-introduction {
+    width: 100%;
+    margin: 0 auto 30px;
+    color: #4b3022;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.ft-intro-title {
+    margin: 0 0 14px;
+    color: #704719;
+    font-size: clamp(1.35rem, 2.5vw, 2rem);
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.ft-intro-description {
+    color: #4b3022;
+    font-size: 1rem;
+    line-height: 1.8;
+    white-space: normal;
+}
+
+/* --- Dynamic Table --- */
+.ft-table-section {
+    width: 100%;
+    margin: 28px auto 0;
+}
+
+.ft-table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    border: 1px solid rgba(142, 100, 39, 0.75);
+    border-radius: 8px;
+    background: rgba(255, 250, 235, 0.94);
+    box-shadow: 0 6px 18px rgba(48, 28, 12, 0.14);
+    -webkit-overflow-scrolling: touch;
+}
+
+.ft-dynamic-table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    color: #352116;
+    font-weight: 500;
+    font-size: 0.96rem;
+    line-height: 1.6;
+}
+
+.ft-dynamic-table th,
+.ft-dynamic-table td {
+    padding: 13px 16px;
+    border: 1px solid rgba(151, 112, 54, 0.38);
+    text-align: left;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+    text-shadow: 0 0.3px 0 rgba(53, 33, 22, 0.35);
+}
+
+.ft-dynamic-table thead th {
+    background: #4a3020;
+    color: #ffe19a;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    letter-spacing: 0.2px;
+    font-weight: 700;
+    white-space: normal;
+}
+
+.ft-dynamic-table tbody tr:nth-child(even) {
+    background: rgba(221, 193, 139, 0.2);
+}
+
+.ft-dynamic-table tbody tr:hover {
+    background: rgba(218, 174, 83, 0.16);
+}
+
+/* --- Optional Serial-Number Column --- */
+.ft-dynamic-table .ft-serial-heading,
+.ft-dynamic-table .ft-serial-cell {
+    width: 76px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* --- Clickable Table Buttons --- */
+.ft-table-button {
+    display: inline-block;
+    max-width: 100%;
+    padding: 9px 16px;
+    border: 1px solid #a87824;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #f3d58a, #d6a744);
+    color: #392414;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+    box-shadow: 0 3px 8px rgba(55, 34, 13, 0.16);
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.ft-table-button:hover {
+    background: linear-gradient(135deg, #ffe7a5, #e5b953);
+    color: #2d1b10;
+    box-shadow: 0 5px 12px rgba(55, 34, 13, 0.22);
+    transform: translateY(-1px);
+}
+
+.ft-table-button:focus-visible {
+    outline: 3px solid #8a5b16;
+    outline-offset: 3px;
+}
+
+/* --- Smaller Screens --- */
+@media (max-width: 600px) {
+    .ft-gallery {
+        margin-bottom: 22px;
+    }
+
+    .ft-gallery-grid {
         grid-template-columns: 1fr;
-        gap: 18px;
-        padding: 0 12px;
+        gap: 14px;
     }
 
-    .ft-section-title {
-        font-size: 1.35rem;
-        letter-spacing: 0.5px;
+    .ft-gallery-item {
+        padding: 7px;
     }
 
-    .ft-section-subtitle {
-        font-size: 1rem;
+    .ft-introduction {
+        margin-bottom: 22px;
     }
 
-    .ft-video-card,
-    .ft-ebook-card {
-        border-radius: 16px;
-    }
-
-    .ft-video-info {
-        padding: 14px 16px 18px;
-    }
-
-    .ft-ebook-info {
-        padding: 14px 16px 18px;
-    }
-
-    .ft-video-title,
-    .ft-ebook-title {
-        font-size: 1rem;
-    }
-
-    .ft-card-button {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .ft-empty-state {
-        padding: 44px 24px;
-    }
-
-    .ft-empty-icon {
-        font-size: 2.8rem;
-    }
-
-    .ft-empty-title {
-        font-size: 1.3rem;
-    }
-
-    .ft-empty-text {
+    .ft-intro-description {
         font-size: 0.95rem;
+        line-height: 1.7;
     }
 
-    .ft-ebooks-single .ft-ebook-card {
-        max-width: 100%;
+    .ft-table-section {
+        margin-top: 22px;
     }
 
-    .ft-ebooks-single .ft-ebook-cover-frame {
-        max-height: 350px;
+    .ft-dynamic-table {
+        font-size: 0.9rem;
     }
 
-    .ft-ebooks-single .ft-ebook-cover {
-        max-height: 350px;
+    .ft-dynamic-table th,
+    .ft-dynamic-table td {
+        padding: 10px 12px;
     }
 
-    .ft-ebooks-single .ft-ebook-info {
-        padding: 24px 20px 24px;
+    .ft-table-button {
+        padding: 8px 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ft-table-button {
+        transition: none;
     }
 
-    .ft-ebooks-single .ft-ebook-title {
-        font-size: 1.2rem;
+    .ft-table-button:hover {
+        transform: none;
     }
+}
+
+/* After-table images: use the available frame more effectively */
+.ft-gallery-after-table .ft-gallery-grid {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.ft-gallery-after-table .ft-gallery-item {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+.ft-gallery-after-table .ft-gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: none;
+    object-fit: contain;
+    margin: 0;
+    box-sizing: border-box;
 }

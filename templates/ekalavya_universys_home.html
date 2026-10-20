@@ -31,10 +31,11 @@
 <section class="hero-wrapper">
     <div class="hero-container">
         <img src="{{ video.thumbnail.url }}" class="hero-image" alt="Section Video Thumbnail"
-             style="cursor:pointer;"
-             data-video-type="{{ video.video_type }}"
-             data-youtube-url="{{ video.youtube_url|default:'' }}"
-             data-upload-url="{% if video.uploaded_video %}{{ video.uploaded_video.url }}{% endif %}">
+            style="cursor:pointer;"
+            data-video-type="{{ video.video_type }}"
+            data-youtube-url="{{ video.youtube_url|default:'' }}"
+            data-upload-url="{% if video.uploaded_video %}{{ video.uploaded_video.url }}{% endif %}"
+            data-other-url="{{ video.other_url|default:'' }}">
     </div>
 </section>
 {% endfor %}
@@ -138,15 +139,27 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
-
     thumbnails.forEach(function(thumb) {
         thumb.addEventListener('click', function() {
             var videoType = thumb.getAttribute('data-video-type') || 'youtube';
             var youtubeUrl = thumb.getAttribute('data-youtube-url') || '';
             var uploadUrl = thumb.getAttribute('data-upload-url') || '';
+            var otherUrl = thumb.getAttribute('data-other-url') || '';
+
+            if (videoType === 'other') {
+                var trimmedOtherUrl = otherUrl.trim();
+
+                // Optional URL: do nothing if it is empty.
+                if (!trimmedOtherUrl) return;
+
+                window.open(trimmedOtherUrl, '_blank', 'noopener,noreferrer');
+                return;
+            }
+
             openVideoModal(videoType, youtubeUrl, uploadUrl);
         });
     });
+
 
     closeBtn.addEventListener('click', function() {
         closeVideoModal();

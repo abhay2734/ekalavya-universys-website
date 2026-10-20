@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 {% load static %}
 
@@ -49,10 +50,9 @@
 
 <!-- MAIN EXPERT REVIEWS SCROLL EXPERIENCE -->
 <div class="er-scroll-wrapper">
-
-    <!-- ===== OPENED SCROLL ===== -->
     <div class="er-opened-scroll">
         <div class="er-scroll-glow"></div>
+
         <div class="er-scroll-outer">
             <div class="er-scroll-rod-top"></div>
             <div class="er-scroll-rod-cap-outer left"></div>
@@ -60,76 +60,133 @@
 
             <div class="er-scroll-content">
 
-                <!-- ===== PAGE TITLE ===== -->
+                <!-- PAGE TITLE -->
                 <section class="er-title-section">
                     <div class="er-page-inner">
                         <header class="er-title-header er-fade-up">
-                            <h1 class="er-page-title">{{ page.title|default:"Expert Reviews" }}</h1>
-                            {% if page.subtitle %}<p class="er-page-subtitle er-fade-up">{{ page.subtitle }}</p>{% endif %}
-                            <div class="er-title-divider er-fade-up"></div>
+                            <h1 class="er-page-title">
+                                {{ page.title|default:"Expert Reviews" }}
+                            </h1>
+                            <div class="er-title-divider"></div>
                         </header>
                     </div>
                 </section>
 
-                <!-- ===== INTRODUCTION ===== -->
+                <!-- OPTIONAL INTRODUCTION -->
                 {% if page.introduction %}
                 <section class="er-intro-section">
                     <div class="er-page-inner">
                         <div class="er-intro-card er-fade-up">
-                            <h2 class="er-section-title">Introduction</h2>
-                            <div class="er-intro-body">{{ page.introduction|linebreaksbr }}</div>
+                            {% if page.introduction_heading %}
+                            <h2 class="er-section-title">
+                                {{ page.introduction_heading }}
+                            </h2>
+                            {% endif %}
+
+                            <div class="er-intro-body">
+                                {{ page.introduction|linebreaksbr }}
+                            </div>
                         </div>
                     </div>
                 </section>
                 {% endif %}
 
-                <!-- ===== EXPERT REVIEWS ===== -->
+                <!-- EXPERT REVIEWS -->
                 <section class="er-reviews-section">
                     <div class="er-page-inner">
+
                         {% if reviews %}
-                            {% for review in reviews %}
-                            <article class="er-review-document er-fade-up">
-                                <header class="er-review-document-header">
-                                    {% if review.module_name %}
-                                    <h2 class="er-review-module-name">🏅 {{ review.module_name }}</h2>
+                            <div class="er-review-list">
+
+                                {% for review in reviews %}
+                                <article
+                                    class="er-review-document er-review-row er-fade-up"
+                                    id="expert-review-{{ review.id }}"
+                                >
+                                    {% with additional_images=review.additional_images.all %}
+
+                                    <!-- MODULE LABEL AND EXPAND BUTTON -->
+                                    <div class="er-review-row-header">
+
+                                        <div class="er-review-module-column">
+                                            {% if review.module_name %}
+                                            <h2 class="er-review-module-name">
+                                                {{ review.module_name }}
+                                            </h2>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="er-review-button-column">
+                                            {% if review.cover_image or additional_images %}
+                                            <button
+                                                type="button"
+                                                class="er-read-full-review"
+                                                data-er-toggle
+                                                aria-expanded="false"
+                                                aria-controls="review-panel-{{ review.id }}"
+                                            >
+                                                {{ review.button_text|default:"View Testimonial" }}
+                                            </button>
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+
+                                    <!-- TESTIMONIAL IMAGES: HIDDEN UNTIL CLICKED -->
+                                    {% if review.cover_image or additional_images %}
+                                    <div
+                                        class="er-review-expanded"
+                                        id="review-panel-{{ review.id }}"
+                                        hidden
+                                    >
+                                        {% if review.cover_image %}
+                                        <figure class="er-review-cover-frame">
+                                            <img
+                                                src="{{ review.cover_image.url }}"
+                                                alt="{{ review.module_name|default:'Expert testimonial' }}"
+                                                class="er-review-cover"
+                                                loading="lazy"
+                                            >
+                                        </figure>
+                                        {% endif %}
+
+                                        {% for img in additional_images %}
+                                        {% if img.image %}
+                                        <figure class="er-review-cover-frame">
+                                            <img
+                                                src="{{ img.image.url }}"
+                                                alt="{{ img.caption|default:review.module_name|default:'Expert testimonial' }}"
+                                                class="er-review-cover"
+                                                loading="lazy"
+                                            >
+
+                                            {% if img.caption %}
+                                            <figcaption class="er-review-additional-caption">
+                                                {{ img.caption }}
+                                            </figcaption>
+                                            {% endif %}
+                                        </figure>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
                                     {% endif %}
-                                </header>
 
-                                {% if review.cover_image %}
-                                <figure class="er-review-cover-frame">
-                                    <img src="{{ review.cover_image.url }}" alt="{{ review.module_name|default:'Expert Review' }}" class="er-review-cover" loading="lazy">
-                                </figure>
-                                {% else %}
-                                <div class="er-review-placeholder" aria-label="Review cover placeholder">
-                                    <div class="er-review-placeholder-icon" aria-hidden="true">&#128172;</div>
-                                    <p class="er-review-placeholder-text">No Cover Image</p>
-                                    <span class="er-review-placeholder-hint">Upload a cover image from the admin to display it here.</span>
-                                </div>
-                                {% endif %}
+                                    {% endwith %}
+                                </article>
+                                {% endfor %}
 
-                                {% with imgs=review.additional_images.all|length %}
-                                {% if imgs > 1 or review.cover_image and imgs > 0 %}
-                                <button class="er-read-full-review" data-er-toggle aria-expanded="false">Read Full Review ▼</button>
+                            </div>
 
-                                <div class="er-review-expanded">
-                                    {% for img in review.additional_images.all %}
-                                    <figure class="er-review-cover-frame">
-                                        <img src="{{ img.image.url }}" alt="{{ img.caption|default:review.module_name }}" class="er-review-cover" loading="lazy">
-                                        {% if img.caption %}<figcaption class="er-review-additional-caption">{{ img.caption }}</figcaption>{% endif %}
-                                    </figure>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                                {% endwith %}
-                            </article>
-                            {% endfor %}
                         {% else %}
                         <div class="er-empty-state er-fade-up">
                             <div class="er-empty-icon" aria-hidden="true">&#128172;</div>
                             <h3 class="er-empty-title">No Reviews Available</h3>
-                            <p class="er-empty-text">Expert reviews are being prepared. Please check back soon.</p>
+                            <p class="er-empty-text">
+                                Expert reviews are being prepared. Please check back soon.
+                            </p>
                         </div>
                         {% endif %}
+
                     </div>
                 </section>
 
@@ -140,12 +197,11 @@
     </div>
 </div>
 
-<!-- Floating Particles -->
+<!-- FLOATING PARTICLES -->
 <div class="er-particles"></div>
 
 {% else %}
 
-<!-- ===== NO CONTENT ===== -->
 <section class="er-placeholder">
     <div class="er-placeholder-inner er-fade-up">
         <h2>EXPERT REVIEWS</h2>
